@@ -161,21 +161,28 @@ public class TLMDataController: NSObject {
         }
         
         //the next check is for RCS capacity
+        //and liquid fuel
         bitfieldCheck = bitfieldCheck << 1
         if (packetType & bitfieldCheck) == bitfieldCheck {
             let rcs: Float = try packet.decode(atOffset: &offset)
             let rcsCapacity: Float = try packet.decode(atOffset: &offset)
             output[.rcsRemaining] = rcs
             output[.rcsCapacity] = rcsCapacity
-        }
-        
-        //the next check is for fuel capacity
-        bitfieldCheck = bitfieldCheck << 1
-        if (packetType & bitfieldCheck) == bitfieldCheck {
+            
             let liquidFuel: Float = try packet.decode(atOffset: &offset)
             let liquidFuelCapacity: Float = try packet.decode(atOffset: &offset)
             output[.fuelRemaining] = liquidFuel
             output[.fuelCapacity] = liquidFuelCapacity
+        }
+        
+        //the next check is for launch items
+        bitfieldCheck = bitfieldCheck << 1
+        if (packetType & bitfieldCheck) == bitfieldCheck {
+            let lat: Float = try packet.decode(atOffset: &offset)
+            let lon: Float = try packet.decode(atOffset: &offset)
+            
+            output[.latitude] = lat
+            output[.longitude] = lon
         }
         
         //the next check is for surface velocity

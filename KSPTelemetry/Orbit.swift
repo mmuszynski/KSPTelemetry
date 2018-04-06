@@ -74,24 +74,24 @@ public class Orbit: CustomDebugStringConvertible {
     }
     
     /// The maximum distance from the center of mass of the body that is being orbited
-    var apoapsis: Double {
+    public var apoapsis: Double {
         return (1 + eccentricity) * semiMajorAxis
     }
     
     /// The minimum distance from the center of mass of the body that is being orbited
-    var periapsis: Double {
+    public var periapsis: Double {
         return (1 - eccentricity) * semiMajorAxis
     }
     
-    var periapsisAltitude: Double {
+    public var periapsisAltitude: Double {
         return periapsis - centralBody.radius
     }
     
-    var apoapsisAltitude: Double {
+    public var apoapsisAltitude: Double {
         return apoapsis - centralBody.radius
     }
     
-    func altitude(atTimeFromEpoch time: Double = 0) -> Double {
+    public func altitude(atTimeFromEpoch time: Double = 0) -> Double {
         let a = semiMajorAxis
         let E = eccentricAnomaly(atTimeFromEpoch: time)
         let e = eccentricity

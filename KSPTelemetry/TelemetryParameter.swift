@@ -94,9 +94,14 @@ public enum TelemetryParameter: String, Hashable, Codable {
                 .longitudeOfAscendingNode,
                 .meanAnomaly,
                 .inclination,
-                .epoch,
+                .periapsisRadius,
+                .periapsisAltitude,
+                .apoapsisRadius,
+                .apoapsisAltitude,
                 .altitude,
                 .heightFromTerrain,
-                .verticalSpeed]
+                .verticalSpeed,
+                .latitude,
+                .longitude]
     }
 }
