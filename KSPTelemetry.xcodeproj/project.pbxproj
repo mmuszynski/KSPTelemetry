@@ -10,6 +10,14 @@
 		27726E1E1F38C51100DC4120 /* KSPTelemetry.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27726E141F38C51100DC4120 /* KSPTelemetry.framework */; };
 		27726E231F38C51100DC4120 /* KSPTelemetryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27726E221F38C51100DC4120 /* KSPTelemetryTests.swift */; };
 		27726E251F38C51100DC4120 /* KSPTelemetry.h in Headers */ = {isa = PBXBuildFile; fileRef = 27726E171F38C51100DC4120 /* KSPTelemetry.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		277FA550207824FB00E2C79A /* KSPTelemetry_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 277FA547207824FB00E2C79A /* KSPTelemetry_iOS.framework */; };
+		277FA555207824FB00E2C79A /* KSPTelemetry_iOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277FA554207824FB00E2C79A /* KSPTelemetry_iOSTests.swift */; };
+		277FA557207824FB00E2C79A /* KSPTelemetry_iOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 277FA549207824FB00E2C79A /* KSPTelemetry_iOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		277FA55F2078253C00E2C79A /* SocketWrapper_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 277FA5602078253C00E2C79A /* SocketWrapper_iOS.framework */; };
+		277FA5612078256900E2C79A /* TelemetryParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27726E2E1F38C53200DC4120 /* TelemetryParameter.swift */; };
+		277FA5622078256900E2C79A /* TLMDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27726E301F38C53C00DC4120 /* TLMDataController.swift */; };
+		277FA5632078256900E2C79A /* Orbit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27B3E72D1F38D91100EBBE78 /* Orbit.swift */; };
+		277FA5642078256900E2C79A /* CelestialBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27B3E72F1F38D92E00EBBE78 /* CelestialBody.swift */; };
 		27B3E72B1F38D05900EBBE78 /* TelemetryParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27726E2E1F38C53200DC4120 /* TelemetryParameter.swift */; };
 		27B3E72C1F38D05B00EBBE78 /* TLMDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27726E301F38C53C00DC4120 /* TLMDataController.swift */; };
 		27B3E72E1F38D91100EBBE78 /* Orbit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27B3E72D1F38D91100EBBE78 /* Orbit.swift */; };
@@ -24,6 +32,13 @@
 			remoteGlobalIDString = 27726E131F38C51100DC4120;
 			remoteInfo = KSPTelemetry;
 		};
+		277FA551207824FB00E2C79A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 27726E0B1F38C51100DC4120 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 277FA546207824FB00E2C79A;
+			remoteInfo = KSPTelemetry_iOS;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +50,13 @@
 		27726E241F38C51100DC4120 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		27726E2E1F38C53200DC4120 /* TelemetryParameter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TelemetryParameter.swift; sourceTree = "<group>"; };
 		27726E301F38C53C00DC4120 /* TLMDataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TLMDataController.swift; sourceTree = "<group>"; };
+		277FA547207824FB00E2C79A /* KSPTelemetry_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = KSPTelemetry_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		277FA549207824FB00E2C79A /* KSPTelemetry_iOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KSPTelemetry_iOS.h; sourceTree = "<group>"; };
+		277FA54A207824FB00E2C79A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		277FA54F207824FB00E2C79A /* KSPTelemetry_iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KSPTelemetry_iOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		277FA554207824FB00E2C79A /* KSPTelemetry_iOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KSPTelemetry_iOSTests.swift; sourceTree = "<group>"; };
+		277FA556207824FB00E2C79A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		277FA5602078253C00E2C79A /* SocketWrapper_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SocketWrapper_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		27B3E72D1F38D91100EBBE78 /* Orbit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Orbit.swift; sourceTree = "<group>"; };
 		27B3E72F1F38D92E00EBBE78 /* CelestialBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CelestialBody.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -55,6 +77,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		277FA543207824FB00E2C79A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				277FA55F2078253C00E2C79A /* SocketWrapper_iOS.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		277FA54C207824FB00E2C79A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				277FA550207824FB00E2C79A /* KSPTelemetry_iOS.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -63,7 +101,10 @@
 			children = (
 				27726E161F38C51100DC4120 /* KSPTelemetry */,
 				27726E211F38C51100DC4120 /* KSPTelemetryTests */,
+				277FA548207824FB00E2C79A /* KSPTelemetry_iOS */,
+				277FA553207824FB00E2C79A /* KSPTelemetry_iOSTests */,
 				27726E151F38C51100DC4120 /* Products */,
+				277FA55E2078253C00E2C79A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -72,6 +113,8 @@
 			children = (
 				27726E141F38C51100DC4120 /* KSPTelemetry.framework */,
 				27726E1D1F38C51100DC4120 /* KSPTelemetryTests.xctest */,
+				277FA547207824FB00E2C79A /* KSPTelemetry_iOS.framework */,
+				277FA54F207824FB00E2C79A /* KSPTelemetry_iOSTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -98,6 +141,32 @@
 			path = KSPTelemetryTests;
 			sourceTree = "<group>";
 		};
+		277FA548207824FB00E2C79A /* KSPTelemetry_iOS */ = {
+			isa = PBXGroup;
+			children = (
+				277FA549207824FB00E2C79A /* KSPTelemetry_iOS.h */,
+				277FA54A207824FB00E2C79A /* Info.plist */,
+			);
+			path = KSPTelemetry_iOS;
+			sourceTree = "<group>";
+		};
+		277FA553207824FB00E2C79A /* KSPTelemetry_iOSTests */ = {
+			isa = PBXGroup;
+			children = (
+				277FA554207824FB00E2C79A /* KSPTelemetry_iOSTests.swift */,
+				277FA556207824FB00E2C79A /* Info.plist */,
+			);
+			path = KSPTelemetry_iOSTests;
+			sourceTree = "<group>";
+		};
+		277FA55E2078253C00E2C79A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				277FA5602078253C00E2C79A /* SocketWrapper_iOS.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -106,6 +175,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				27726E251F38C51100DC4120 /* KSPTelemetry.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		277FA544207824FB00E2C79A /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				277FA557207824FB00E2C79A /* KSPTelemetry_iOS.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -148,14 +225,50 @@
 			productReference = 27726E1D1F38C51100DC4120 /* KSPTelemetryTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		277FA546207824FB00E2C79A /* KSPTelemetry_iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 277FA55C207824FB00E2C79A /* Build configuration list for PBXNativeTarget "KSPTelemetry_iOS" */;
+			buildPhases = (
+				277FA542207824FB00E2C79A /* Sources */,
+				277FA543207824FB00E2C79A /* Frameworks */,
+				277FA544207824FB00E2C79A /* Headers */,
+				277FA545207824FB00E2C79A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = KSPTelemetry_iOS;
+			productName = KSPTelemetry_iOS;
+			productReference = 277FA547207824FB00E2C79A /* KSPTelemetry_iOS.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		277FA54E207824FB00E2C79A /* KSPTelemetry_iOSTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 277FA55D207824FB00E2C79A /* Build configuration list for PBXNativeTarget "KSPTelemetry_iOSTests" */;
+			buildPhases = (
+				277FA54B207824FB00E2C79A /* Sources */,
+				277FA54C207824FB00E2C79A /* Frameworks */,
+				277FA54D207824FB00E2C79A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				277FA552207824FB00E2C79A /* PBXTargetDependency */,
+			);
+			name = KSPTelemetry_iOSTests;
+			productName = KSPTelemetry_iOSTests;
+			productReference = 277FA54F207824FB00E2C79A /* KSPTelemetry_iOSTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		27726E0B1F38C51100DC4120 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0900;
-				LastUpgradeCheck = 0900;
+				LastSwiftUpdateCheck = 0920;
+				LastUpgradeCheck = 0920;
 				ORGANIZATIONNAME = "Mike Muszynski";
 				TargetAttributes = {
 					27726E131F38C51100DC4120 = {
@@ -165,6 +278,14 @@
 					};
 					27726E1C1F38C51100DC4120 = {
 						CreatedOnToolsVersion = 9.0;
+					};
+					277FA546207824FB00E2C79A = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+					};
+					277FA54E207824FB00E2C79A = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -182,6 +303,8 @@
 			targets = (
 				27726E131F38C51100DC4120 /* KSPTelemetry */,
 				27726E1C1F38C51100DC4120 /* KSPTelemetryTests */,
+				277FA546207824FB00E2C79A /* KSPTelemetry_iOS */,
+				277FA54E207824FB00E2C79A /* KSPTelemetry_iOSTests */,
 			);
 		};
 /* End PBXProject section */
@@ -195,6 +318,20 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		27726E1B1F38C51100DC4120 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		277FA545207824FB00E2C79A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		277FA54D207824FB00E2C79A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -223,6 +360,25 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		277FA542207824FB00E2C79A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				277FA5612078256900E2C79A /* TelemetryParameter.swift in Sources */,
+				277FA5622078256900E2C79A /* TLMDataController.swift in Sources */,
+				277FA5642078256900E2C79A /* CelestialBody.swift in Sources */,
+				277FA5632078256900E2C79A /* Orbit.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		277FA54B207824FB00E2C79A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				277FA555207824FB00E2C79A /* KSPTelemetry_iOSTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -230,6 +386,11 @@
 			isa = PBXTargetDependency;
 			target = 27726E131F38C51100DC4120 /* KSPTelemetry */;
 			targetProxy = 27726E1F1F38C51100DC4120 /* PBXContainerItemProxy */;
+		};
+		277FA552207824FB00E2C79A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 277FA546207824FB00E2C79A /* KSPTelemetry_iOS */;
+			targetProxy = 277FA551207824FB00E2C79A /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -350,7 +511,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
@@ -376,7 +537,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
@@ -425,6 +586,92 @@
 			};
 			name = Release;
 		};
+		277FA558207824FB00E2C79A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = DF288G8ZJ6;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = KSPTelemetry_iOS/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mmuszynski.KSPTelemetry-iOS";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		277FA559207824FB00E2C79A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = DF288G8ZJ6;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = KSPTelemetry_iOS/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mmuszynski.KSPTelemetry-iOS";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		277FA55A207824FB00E2C79A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = DF288G8ZJ6;
+				INFOPLIST_FILE = KSPTelemetry_iOSTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mmuszynski.KSPTelemetry-iOSTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		277FA55B207824FB00E2C79A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = DF288G8ZJ6;
+				INFOPLIST_FILE = KSPTelemetry_iOSTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mmuszynski.KSPTelemetry-iOSTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -451,6 +698,24 @@
 			buildConfigurations = (
 				27726E2C1F38C51100DC4120 /* Debug */,
 				27726E2D1F38C51100DC4120 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		277FA55C207824FB00E2C79A /* Build configuration list for PBXNativeTarget "KSPTelemetry_iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				277FA558207824FB00E2C79A /* Debug */,
+				277FA559207824FB00E2C79A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		277FA55D207824FB00E2C79A /* Build configuration list for PBXNativeTarget "KSPTelemetry_iOSTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				277FA55A207824FB00E2C79A /* Debug */,
+				277FA55B207824FB00E2C79A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

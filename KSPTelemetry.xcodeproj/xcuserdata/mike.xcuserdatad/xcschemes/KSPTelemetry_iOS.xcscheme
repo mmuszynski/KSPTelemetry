@@ -14,9 +14,23 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "27726E131F38C51100DC4120"
-               BuildableName = "KSPTelemetry.framework"
-               BlueprintName = "KSPTelemetry"
+               BlueprintIdentifier = "27BC602A1F360B71001E109F"
+               BuildableName = "SocketWrapper_iOS.framework"
+               BlueprintName = "SocketWrapper-iOS"
+               ReferencedContainer = "container:../../Frameworks/socketwrapper/SocketWrapper.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "277FA546207824FB00E2C79A"
+               BuildableName = "KSPTelemetry_iOS.framework"
+               BlueprintName = "KSPTelemetry_iOS"
                ReferencedContainer = "container:KSPTelemetry.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -33,9 +47,9 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "27726E1C1F38C51100DC4120"
-               BuildableName = "KSPTelemetryTests.xctest"
-               BlueprintName = "KSPTelemetryTests"
+               BlueprintIdentifier = "277FA54E207824FB00E2C79A"
+               BuildableName = "KSPTelemetry_iOSTests.xctest"
+               BlueprintName = "KSPTelemetry_iOSTests"
                ReferencedContainer = "container:KSPTelemetry.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -43,9 +57,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "27726E131F38C51100DC4120"
-            BuildableName = "KSPTelemetry.framework"
-            BlueprintName = "KSPTelemetry"
+            BlueprintIdentifier = "277FA546207824FB00E2C79A"
+            BuildableName = "KSPTelemetry_iOS.framework"
+            BlueprintName = "KSPTelemetry_iOS"
             ReferencedContainer = "container:KSPTelemetry.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -66,9 +80,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "27726E131F38C51100DC4120"
-            BuildableName = "KSPTelemetry.framework"
-            BlueprintName = "KSPTelemetry"
+            BlueprintIdentifier = "277FA546207824FB00E2C79A"
+            BuildableName = "KSPTelemetry_iOS.framework"
+            BlueprintName = "KSPTelemetry_iOS"
             ReferencedContainer = "container:KSPTelemetry.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -84,9 +98,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "27726E131F38C51100DC4120"
-            BuildableName = "KSPTelemetry.framework"
-            BlueprintName = "KSPTelemetry"
+            BlueprintIdentifier = "277FA546207824FB00E2C79A"
+            BuildableName = "KSPTelemetry_iOS.framework"
+            BlueprintName = "KSPTelemetry_iOS"
             ReferencedContainer = "container:KSPTelemetry.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

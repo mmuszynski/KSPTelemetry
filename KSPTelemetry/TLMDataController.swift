@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import SocketWrapper
+import SocketWrapper_iOS
 
 public protocol TLMDataControllerDelegate {
     func connectionDidConnect()
