@@ -29,7 +29,7 @@ public class Orbit: CustomDebugStringConvertible {
         return string
     }
     
-    class var testEscapeOrbit: Orbit {
+    public class var testEscapeOrbit: Orbit {
         let mun = CelestialBody(gravitationalParameter: 65138397184.0, radius: 2e6)
         let orbit = Orbit(semiMajorAxis: -944427.0625, eccentricity: 1.22502624988556, meanAnomaly: 0.196598216891289, inclination: 0.129754841327667, LAN: 162.380401611328, argumentOfPeriapsis: 356.085906982422, centralBody: mun)
         return orbit
@@ -73,46 +73,53 @@ public class Orbit: CustomDebugStringConvertible {
         self.centralBody = centralBody
     }
     
+    public convenience init(semiMajorAxis: Float, eccentricity: Float, meanAnomaly: Float, inclination: Float, LAN: Float, argumentOfPeriapsis: Float, centralBody: CelestialBody) {
+        self.init(semiMajorAxis: Double(semiMajorAxis),
+                  eccentricity: Double(eccentricity),
+                  meanAnomaly: Double(meanAnomaly),
+                  inclination: Double(inclination),
+                  LAN: Double(LAN),
+                  argumentOfPeriapsis: Double(argumentOfPeriapsis),
+                  centralBody: centralBody)
+    }
+    
     /// The maximum distance from the center of mass of the body that is being orbited
-    var apoapsis: Double {
+    public var apoapsis: Double {
         return (1 + eccentricity) * semiMajorAxis
     }
     
     /// The minimum distance from the center of mass of the body that is being orbited
-    var periapsis: Double {
+    public var periapsis: Double {
         return (1 - eccentricity) * semiMajorAxis
     }
     
-    var periapsisAltitude: Double {
+    public var periapsisAltitude: Double {
         return periapsis - centralBody.radius
     }
     
-    var apoapsisAltitude: Double {
+    public var apoapsisAltitude: Double {
         return apoapsis - centralBody.radius
     }
     
-    func altitude(atTimeFromEpoch time: Double = 0) -> Double {
-        let a = semiMajorAxis
-        let E = eccentricAnomaly(atTimeFromEpoch: time)
-        let e = eccentricity
-        return a * (e - e * cos(E))
+    public func altitude(atTimeFromEpoch time: Double = 0) -> Double {
+        return radius(atTimeFromEpoch: time) - centralBody.radius
     }
     
-    var semiMinorAxis: Double {
+    public var semiMinorAxis: Double {
         return semiMajorAxis * sqrt(1.0 - eccentricity * eccentricity)
     }
     
-    var meanMotion: Double {
+    public var meanMotion: Double {
         let gm = centralBody.gravitationalParameter
         return sqrt(gm / pow(semiMajorAxis, 3))
     }
     
-    var period: Double {
+    public var period: Double {
         let gm = centralBody.gravitationalParameter
         return 2.0 * Double.pi * sqrt(pow(semiMajorAxis, 3) / gm)
     }
     
-    func meanAnomaly(atTimeFromEpoch time: Double = 0) -> Double {
+    public func meanAnomaly(atTimeFromEpoch time: Double = 0) -> Double {
         var meanAnomalyAtTime = self.meanMotion * time + meanAnomaly;
         while meanAnomalyAtTime > (2.0 * Double.pi) {
             meanAnomalyAtTime -= 2.0 * Double.pi
@@ -120,7 +127,7 @@ public class Orbit: CustomDebugStringConvertible {
         return meanAnomalyAtTime
     }
     
-    func eccentricAnomaly(fromMeanAnomaly meanAnomaly: Double) -> Double {
+    public func eccentricAnomaly(fromMeanAnomaly meanAnomaly: Double) -> Double {
         let tolerance = 0.0005
         let eccentricity = self.eccentricity
         
@@ -145,14 +152,14 @@ public class Orbit: CustomDebugStringConvertible {
         return E
     }
     
-    func eccentricAnomaly(atTimeFromEpoch time: Double = 0) -> Double {
+    public func eccentricAnomaly(atTimeFromEpoch time: Double = 0) -> Double {
         let meanAnomaly = self.meanAnomaly(atTimeFromEpoch: time)
         let eccentricAnomaly = self.eccentricAnomaly(fromMeanAnomaly: meanAnomaly)
         
         return eccentricAnomaly
     }
     
-    func trueAnomaly(atTimeFromEpoch time: Double = 0) -> Double {
+    public func trueAnomaly(atTimeFromEpoch time: Double = 0) -> Double {
         let E = self.eccentricAnomaly(atTimeFromEpoch: time)
         let ecc = eccentricity
 
@@ -168,13 +175,13 @@ public class Orbit: CustomDebugStringConvertible {
         return semiMajorAxis * (1 - eccentricity * eccentricity) / (1 + eccentricity * cos(trueAnomaly))
     }
     
-    func orbitalSpeed(atTimeFromEpoch time: Double = 0) -> Double {
+    public func orbitalSpeed(atTimeFromEpoch time: Double = 0) -> Double {
         let gm = centralBody.gravitationalParameter
         let radius = self.radius(atTimeFromEpoch: time)
         return sqrt(gm * (2.0 / radius - 1 / self.semiMajorAxis))
     }
     
-    func timeToApoapsis(atTimeFromEpoch time: Double = 0) -> Double {
+    public func timeToApoapsis(atTimeFromEpoch time: Double = 0) -> Double {
         let effectiveMeanAnomaly = self.meanAnomaly(atTimeFromEpoch: time)
         var target = Double.pi
         if effectiveMeanAnomaly > target {
@@ -187,7 +194,7 @@ public class Orbit: CustomDebugStringConvertible {
         return period * meanAnomalyFractionRemaining
     }
     
-    func timeToPeriapsis(atTimeFromEpoch time: Double = 0) -> Double {
+    public func timeToPeriapsis(atTimeFromEpoch time: Double = 0) -> Double {
         let effectiveMeanAnomaly = self.meanAnomaly(atTimeFromEpoch: time)
         
         let meanAnomalyFractionRemaining = (2.0 * Double.pi - effectiveMeanAnomaly) / (2.0 * Double.pi)

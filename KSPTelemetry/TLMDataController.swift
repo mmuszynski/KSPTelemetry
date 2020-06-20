@@ -7,13 +7,18 @@
 //
 
 import Foundation
+#if os(iOS)
+import SocketWrapper_iOS
+#elseif os(macOS)
 import SocketWrapper
+#endif
 
 public protocol TLMDataControllerDelegate {
     func connectionDidConnect()
     func connectionDidLoseConnection()
     func remoteServerClosedConnection()
     func connectionDidReturnNewData(packet: [TLMDataController.TelemetryKey:TLMDataController.TelemetryValue])
+    func connectionDidFailWithError(error: Error)
 }
 
 public class TLMDataController: NSObject {
@@ -25,9 +30,15 @@ public class TLMDataController: NSObject {
     public static let shared = TLMDataController()
     public var ipAddress: String = "192.168.1.1"
     public var port: Int = 7000
-    var telemetry = Dictionary<AnyHashable,Any>()
     public var delegate: TLMDataControllerDelegate?
     public var timeout: Double = 5.0
+    
+    public var keepAlive = true
+    private var keepAliveTime: TimeInterval = 0.0
+    private var connectionExpiry: Date = Date()
+    
+    //Telemetry should not be accessed directly and should instead be taken from the delegate methods for thread safety
+    private var telemetry = Dictionary<AnyHashable,Any>()
     
     private var listenerShouldContinue = true
     private func listenMethod() {
@@ -95,7 +106,26 @@ public class TLMDataController: NSObject {
         }
     }
     
-    public func openConnection() throws {
+    public func openConnection(until expiration: Date? = nil, atAddress newAddress: String? = nil, onPort newPort: Int? = nil) throws {
+        //if the connection ip and port are set here, set them in the instance variable
+        if let newAddress = newAddress {
+            self.ipAddress = newAddress
+        }
+        
+        if let newPort = newPort {
+            self.port = newPort
+        }
+        
+        if let date = expiration {
+            self.connectionExpiry = date
+        } else {
+            self.connectionExpiry = Date().addingTimeInterval(60)
+        }
+        
+        let seconds = self.connectionExpiry.timeIntervalSince(Date())
+        let rounded = round(seconds)
+        let intSeconds = Int(rounded)
+        
         //set the timeout for the socket to whatever the class wants
         try tunnelSocket.setReceiveTimeout(seconds: self.timeout)
         
@@ -105,11 +135,25 @@ public class TLMDataController: NSObject {
         //"disconnect" asks to be disconnected
         //"continuous" asks for a continuous connection. not sure if this will be robust enough
         //"debug" asks for one message to be sent back
-        let message = "connect:600"
+        let message = "connect:\(intSeconds)"
         try tunnelSocket.send(object: message, toAddress: self.ipAddress, onService: .port(self.port))
+        
+        if keepAlive {
+            keepAliveTime = rounded
+            let timer = Timer(fireAt: connectionExpiry.addingTimeInterval(-5.0), interval: 1.0, target: self, selector: #selector(TLMDataController.reopen), userInfo: nil, repeats: false)
+            RunLoop.main.add(timer, forMode: .defaultRunLoopMode)
+        }
         
         //once the message is sent, start the
         beginBackgroundListening()
+    }
+    
+    @objc func reopen() {
+        do {
+            try self.openConnection(until: Date().addingTimeInterval(keepAliveTime))
+        } catch {
+            delegate?.connectionDidFailWithError(error: error)
+        }
     }
     
     func beginBackgroundListening() {
@@ -161,21 +205,28 @@ public class TLMDataController: NSObject {
         }
         
         //the next check is for RCS capacity
+        //and liquid fuel
         bitfieldCheck = bitfieldCheck << 1
         if (packetType & bitfieldCheck) == bitfieldCheck {
             let rcs: Float = try packet.decode(atOffset: &offset)
             let rcsCapacity: Float = try packet.decode(atOffset: &offset)
             output[.rcsRemaining] = rcs
             output[.rcsCapacity] = rcsCapacity
-        }
-        
-        //the next check is for fuel capacity
-        bitfieldCheck = bitfieldCheck << 1
-        if (packetType & bitfieldCheck) == bitfieldCheck {
+            
             let liquidFuel: Float = try packet.decode(atOffset: &offset)
             let liquidFuelCapacity: Float = try packet.decode(atOffset: &offset)
             output[.fuelRemaining] = liquidFuel
             output[.fuelCapacity] = liquidFuelCapacity
+        }
+        
+        //the next check is for launch items
+        bitfieldCheck = bitfieldCheck << 1
+        if (packetType & bitfieldCheck) == bitfieldCheck {
+            let lat: Float = try packet.decode(atOffset: &offset)
+            let lon: Float = try packet.decode(atOffset: &offset)
+            
+            output[.latitude] = lat
+            output[.longitude] = lon
         }
         
         //the next check is for surface velocity

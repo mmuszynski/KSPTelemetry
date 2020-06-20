@@ -16,4 +16,9 @@ public struct CelestialBody {
         self.gravitationalParameter = gravitationalParameter
         self.radius = radius
     }
+    
+    public init(gravitationalParameter: Float, radius: Float) {
+        self.gravitationalParameter = Double(gravitationalParameter)
+        self.radius = Double(radius)
+    }
 }
