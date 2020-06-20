@@ -7,15 +7,7 @@
 //
 
 import Foundation
-<<<<<<< HEAD
-#if os(iOS)
-import SocketWrapper_iOS
-#elseif os(macOS)
 import SocketWrapper
-#endif
-=======
-import SocketWrapper_iOS
->>>>>>> b300b9102509aa3490e1da2673011f9f06486bf3
 
 public protocol TLMDataControllerDelegate {
     func connectionDidConnect()
@@ -140,12 +132,12 @@ public class TLMDataController: NSObject {
         //"continuous" asks for a continuous connection. not sure if this will be robust enough
         //"debug" asks for one message to be sent back
         let message = "connect:\(intSeconds)"
-        try tunnelSocket.send(object: message, toAddress: self.ipAddress, onService: .port(self.port))
+        try tunnelSocket.send(message, toAddress: self.ipAddress, onService: .port(self.port))
         
         if keepAlive {
             keepAliveTime = rounded
             let timer = Timer(fireAt: connectionExpiry.addingTimeInterval(-5.0), interval: 1.0, target: self, selector: #selector(TLMDataController.reopen), userInfo: nil, repeats: false)
-            RunLoop.main.add(timer, forMode: .defaultRunLoopMode)
+            RunLoop.main.add(timer, forMode: RunLoop.Mode.default)
         }
         
         //once the message is sent, start the
@@ -255,7 +247,7 @@ public class TLMDataController: NSObject {
     
     public func closeConnection() {
         do {
-            try tunnelSocket.send(object: "disconnect", toAddress: self.ipAddress, onService: .port(self.port))
+            try tunnelSocket.send("disconnect", toAddress: self.ipAddress, onService: .port(self.port))
         } catch {
             print("\(error)")
         }
