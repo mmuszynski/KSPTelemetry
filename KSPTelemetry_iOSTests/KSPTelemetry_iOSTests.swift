@@ -2,8 +2,13 @@
 //  KSPTelemetry_iOSTests.swift
 //  KSPTelemetry_iOSTests
 //
+<<<<<<< HEAD
 //  Created by Mike Muszynski on 8/7/17.
 //  Copyright © 2017 Mike Muszynski. All rights reserved.
+=======
+//  Created by Mike Muszynski on 4/6/18.
+//  Copyright © 2018 Mike Muszynski. All rights reserved.
+>>>>>>> b300b9102509aa3490e1da2673011f9f06486bf3
 //
 
 import XCTest

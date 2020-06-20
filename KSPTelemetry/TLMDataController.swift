@@ -7,11 +7,15 @@
 //
 
 import Foundation
+<<<<<<< HEAD
 #if os(iOS)
 import SocketWrapper_iOS
 #elseif os(macOS)
 import SocketWrapper
 #endif
+=======
+import SocketWrapper_iOS
+>>>>>>> b300b9102509aa3490e1da2673011f9f06486bf3
 
 public protocol TLMDataControllerDelegate {
     func connectionDidConnect()
