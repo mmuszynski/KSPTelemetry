@@ -260,7 +260,7 @@ public class TLMDataController: NSObject {
 }
 
 public extension TLMDataController {
-    enum ConnectionError: Error {
+    enum ConnectionError: LocalizedError {
         case timeout
     }
 }
