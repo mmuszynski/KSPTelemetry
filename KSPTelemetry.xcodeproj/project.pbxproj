@@ -7,13 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		273E7C7F249E7CFD0075A966 /* Keplerian.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 273E7C7E249E7CFD0075A966 /* Keplerian.framework */; };
-		273E7C80249E7CFD0075A966 /* Keplerian.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 273E7C7E249E7CFD0075A966 /* Keplerian.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		273E7C83249E7D000075A966 /* SocketWrapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 273E7C82249E7D000075A966 /* SocketWrapper.framework */; };
-		273E7C84249E7D000075A966 /* SocketWrapper.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 273E7C82249E7D000075A966 /* SocketWrapper.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		27726E1E1F38C51100DC4120 /* KSPTelemetry.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27726E141F38C51100DC4120 /* KSPTelemetry.framework */; };
 		27726E231F38C51100DC4120 /* KSPTelemetryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27726E221F38C51100DC4120 /* KSPTelemetryTests.swift */; };
 		27726E251F38C51100DC4120 /* KSPTelemetry.h in Headers */ = {isa = PBXBuildFile; fileRef = 27726E171F38C51100DC4120 /* KSPTelemetry.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		278FD85E249E9BE900DD7A01 /* SocketWrapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 278FD85D249E9BE900DD7A01 /* SocketWrapper.framework */; };
+		278FD862249E9C0300DD7A01 /* Keplerian.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 278FD861249E9C0300DD7A01 /* Keplerian.framework */; };
 		27B3E72B1F38D05900EBBE78 /* TelemetryParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27726E2E1F38C53200DC4120 /* TelemetryParameter.swift */; };
 		27B3E72C1F38D05B00EBBE78 /* TLMDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27726E301F38C53C00DC4120 /* TLMDataController.swift */; };
 /* End PBXBuildFile section */
@@ -35,8 +33,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				273E7C80249E7CFD0075A966 /* Keplerian.framework in Embed Frameworks */,
-				273E7C84249E7D000075A966 /* SocketWrapper.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -44,9 +40,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		273E7C7E249E7CFD0075A966 /* Keplerian.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Keplerian.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		273E7C82249E7D000075A966 /* SocketWrapper.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SocketWrapper.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		273E7C85249E7D090075A966 /* SocketWrapper_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SocketWrapper_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		27726E141F38C51100DC4120 /* KSPTelemetry.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = KSPTelemetry.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		27726E171F38C51100DC4120 /* KSPTelemetry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KSPTelemetry.h; sourceTree = "<group>"; };
 		27726E181F38C51100DC4120 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -55,14 +48,8 @@
 		27726E241F38C51100DC4120 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		27726E2E1F38C53200DC4120 /* TelemetryParameter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TelemetryParameter.swift; sourceTree = "<group>"; };
 		27726E301F38C53C00DC4120 /* TLMDataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TLMDataController.swift; sourceTree = "<group>"; };
-		27D9C0D21F3964CE00EBD812 /* KSPTelemetry_iOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KSPTelemetry_iOS.h; sourceTree = "<group>"; };
-		27D9C0D31F3964CE00EBD812 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		27D9C0DD1F3964CE00EBD812 /* KSPTelemetry_iOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KSPTelemetry_iOSTests.swift; sourceTree = "<group>"; };
-		27D9C0DF1F3964CE00EBD812 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		27D9C0F01F39653300EBD812 /* SocketWrapper.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SocketWrapper.framework; path = "../../../Library/Developer/Xcode/DerivedData/KSPCockpitPanel-djhebuyuommweiglestqchgunlra/Build/Products/Debug/SocketWrapper.framework"; sourceTree = "<group>"; };
-		27D9C0F21F39654100EBD812 /* SocketWrapper_iOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SocketWrapper_iOS.framework; path = "../../../Library/Developer/Xcode/DerivedData/KSPCockpitPanel-djhebuyuommweiglestqchgunlra/Build/Products/Debug-iphoneos/SocketWrapper_iOS.framework"; sourceTree = "<group>"; };
-		27D9C0F51F39664B00EBD812 /* SocketWrapper_iOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SocketWrapper_iOS.framework; path = "../../../Library/Developer/Xcode/DerivedData/KSPCockpitPanel-djhebuyuommweiglestqchgunlra/Build/Products/Debug-iphonesimulator/SocketWrapper_iOS.framework"; sourceTree = "<group>"; };
-		27E773861F39722700D6DAF2 /* SocketWrapper_iOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SocketWrapper_iOS.framework; path = "../socketwrapper/build/Debug-iphoneos/SocketWrapper_iOS.framework"; sourceTree = "<group>"; };
+		278FD85D249E9BE900DD7A01 /* SocketWrapper.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SocketWrapper.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		278FD861249E9C0300DD7A01 /* Keplerian.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Keplerian.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,8 +57,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				273E7C7F249E7CFD0075A966 /* Keplerian.framework in Frameworks */,
-				273E7C83249E7D000075A966 /* SocketWrapper.framework in Frameworks */,
+				278FD862249E9C0300DD7A01 /* Keplerian.framework in Frameworks */,
+				278FD85E249E9BE900DD7A01 /* SocketWrapper.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -91,8 +78,6 @@
 			children = (
 				27726E161F38C51100DC4120 /* KSPTelemetry */,
 				27726E211F38C51100DC4120 /* KSPTelemetryTests */,
-				27D9C0D11F3964CE00EBD812 /* KSPTelemetry_iOS */,
-				27D9C0DC1F3964CE00EBD812 /* KSPTelemetry_iOSTests */,
 				27726E151F38C51100DC4120 /* Products */,
 				27D9C0EF1F39653300EBD812 /* Frameworks */,
 			);
@@ -127,34 +112,11 @@
 			path = KSPTelemetryTests;
 			sourceTree = "<group>";
 		};
-		27D9C0D11F3964CE00EBD812 /* KSPTelemetry_iOS */ = {
-			isa = PBXGroup;
-			children = (
-				27D9C0D21F3964CE00EBD812 /* KSPTelemetry_iOS.h */,
-				27D9C0D31F3964CE00EBD812 /* Info.plist */,
-			);
-			path = KSPTelemetry_iOS;
-			sourceTree = "<group>";
-		};
-		27D9C0DC1F3964CE00EBD812 /* KSPTelemetry_iOSTests */ = {
-			isa = PBXGroup;
-			children = (
-				27D9C0DD1F3964CE00EBD812 /* KSPTelemetry_iOSTests.swift */,
-				27D9C0DF1F3964CE00EBD812 /* Info.plist */,
-			);
-			path = KSPTelemetry_iOSTests;
-			sourceTree = "<group>";
-		};
 		27D9C0EF1F39653300EBD812 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				273E7C85249E7D090075A966 /* SocketWrapper_iOS.framework */,
-				273E7C7E249E7CFD0075A966 /* Keplerian.framework */,
-				273E7C82249E7D000075A966 /* SocketWrapper.framework */,
-				27D9C0F21F39654100EBD812 /* SocketWrapper_iOS.framework */,
-				27D9C0F51F39664B00EBD812 /* SocketWrapper_iOS.framework */,
-				27E773861F39722700D6DAF2 /* SocketWrapper_iOS.framework */,
-				27D9C0F01F39653300EBD812 /* SocketWrapper.framework */,
+				278FD85D249E9BE900DD7A01 /* SocketWrapper.framework */,
+				278FD861249E9C0300DD7A01 /* Keplerian.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -217,7 +179,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0900;
-				LastUpgradeCheck = 1130;
+				LastUpgradeCheck = 1200;
 				ORGANIZATIONNAME = "Mike Muszynski";
 				TargetAttributes = {
 					27726E131F38C51100DC4120 = {
@@ -237,6 +199,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 27726E0A1F38C51100DC4120;
 			productRefGroup = 27726E151F38C51100DC4120 /* Products */;
@@ -320,6 +283,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -346,8 +310,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
@@ -384,6 +348,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -404,8 +369,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -430,6 +395,7 @@
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = KSPTelemetry/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = mmuszynski.KSPTelemetry;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
@@ -457,6 +423,7 @@
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = KSPTelemetry/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = mmuszynski.KSPTelemetry;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
