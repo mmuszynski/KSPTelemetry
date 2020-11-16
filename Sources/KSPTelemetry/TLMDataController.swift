@@ -86,6 +86,7 @@ public class TLMDataController: NSObject {
                 
                 DispatchQueue.main.async {
                     self.delegate?.connectionDidLoseConnection()
+                    self.delegate?.connectionDidFailWithError(error: ConnectionError.timeout)
                 }
                 return
             }
@@ -258,3 +259,8 @@ public class TLMDataController: NSObject {
     }
 }
 
+public extension TLMDataController {
+    enum ConnectionError: Error {
+        case timeout
+    }
+}

@@ -5,9 +5,9 @@
         "package": "SocketWrapper",
         "repositoryURL": "https://bitbucket.org/mmuszynski/socketwrapper/src/master/",
         "state": {
-          "branch": null,
-          "revision": "f4632ab4774afbb04f7db62b83e02c9a2476b2b7",
-          "version": "0.0.1"
+          "branch": "master",
+          "revision": "aa6660d16e27836a82732c3cf99a382868ff207d",
+          "version": null
         }
       }
     ]
