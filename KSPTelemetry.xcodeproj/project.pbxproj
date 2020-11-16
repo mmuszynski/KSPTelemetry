@@ -76,8 +76,8 @@
 		27726E0A1F38C51100DC4120 = {
 			isa = PBXGroup;
 			children = (
-				27726E161F38C51100DC4120 /* KSPTelemetry */,
-				27726E211F38C51100DC4120 /* KSPTelemetryTests */,
+				2792E08B25621B07005520D3 /* Sources */,
+				2792E08C25621B19005520D3 /* Tests */,
 				27726E151F38C51100DC4120 /* Products */,
 				27D9C0EF1F39653300EBD812 /* Frameworks */,
 			);
@@ -110,6 +110,22 @@
 				27726E241F38C51100DC4120 /* Info.plist */,
 			);
 			path = KSPTelemetryTests;
+			sourceTree = "<group>";
+		};
+		2792E08B25621B07005520D3 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				27726E161F38C51100DC4120 /* KSPTelemetry */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		2792E08C25621B19005520D3 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				27726E211F38C51100DC4120 /* KSPTelemetryTests */,
+			);
+			path = Tests;
 			sourceTree = "<group>";
 		};
 		27D9C0EF1F39653300EBD812 /* Frameworks */ = {
