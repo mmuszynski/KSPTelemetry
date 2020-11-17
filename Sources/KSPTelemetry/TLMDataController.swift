@@ -19,7 +19,7 @@ public protocol TLMDataControllerDelegate {
 
 public class TLMDataController: NSObject {
     public typealias TelemetryKey = TelemetryParameter
-    public typealias TelemetryValue = Any
+    public typealias TelemetryValue = Codable
     
     private let tunnelSocket = Socket(format: .udp)
     
