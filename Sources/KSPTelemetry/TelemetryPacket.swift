@@ -12,6 +12,9 @@ public struct TelemetryPacket: Codable {
     public var packetType: Int32 = 0
     public var unixTime: Int32 = 0
     
+    public var keys: [TelemetryKey] {
+        return Array(floatValues.keys)
+    }
     private var floatValues: [TelemetryKey : Float] = [:]
     
     public subscript(_ key: TelemetryKey) -> Float? {
