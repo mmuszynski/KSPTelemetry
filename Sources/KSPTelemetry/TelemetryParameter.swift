@@ -8,10 +8,8 @@
 
 import Foundation
 
-public enum TelemetryParameter: String, Hashable, Codable {
-    case packetType
-    case unixEpochTime
-    
+public enum TelemetryKey: String, Hashable, Codable {
+
     //These are the parameters as they exist in the KSPUDPConnection.h file
     case universeTime
     
@@ -77,31 +75,22 @@ public enum TelemetryParameter: String, Hashable, Codable {
     case currentCountdownTime
     case isCountdownTimerRunning
     
-    public func parseValue(fromCsvString string: String) -> Any? {
-        switch self {
-        case .packetType:
-            return Int(string)
-        default:
-            return Float(string)
-        }
-    }
-    
-    public static var graphableParameters: [TelemetryParameter] {
-        return [.universeTime,
-                .semiMajorAxis,
-                .eccentricity,
-                .argumentOfPeriapsis,
-                .longitudeOfAscendingNode,
-                .meanAnomaly,
-                .inclination,
-                .periapsisRadius,
-                .periapsisAltitude,
-                .apoapsisRadius,
-                .apoapsisAltitude,
-                .altitude,
-                .heightFromTerrain,
-                .verticalSpeed,
-                .latitude,
-                .longitude]
-    }
+//    public static var graphableParameters: [TelemetryParameter] {
+//        return [.universeTime,
+//                .semiMajorAxis,
+//                .eccentricity,
+//                .argumentOfPeriapsis,
+//                .longitudeOfAscendingNode,
+//                .meanAnomaly,
+//                .inclination,
+//                .periapsisRadius,
+//                .periapsisAltitude,
+//                .apoapsisRadius,
+//                .apoapsisAltitude,
+//                .altitude,
+//                .heightFromTerrain,
+//                .verticalSpeed,
+//                .latitude,
+//                .longitude]
+//    }
 }

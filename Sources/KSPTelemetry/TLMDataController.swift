@@ -13,12 +13,11 @@ public protocol TLMDataControllerDelegate {
     func connectionDidConnect()
     func connectionDidLoseConnection()
     func remoteServerClosedConnection()
-    func connectionDidReturnNewData(packet: TLMDataController.TelemetryPacket)
+    func connectionDidReturnNewData(packet: TelemetryPacket)
     func connectionDidFailWithError(error: Error)
 }
 
 public class TLMDataController: NSObject {
-    public typealias TelemetryPacket = [TelemetryParameter:TelemetryValue]
     
     private let tunnelSocket = Socket(format: .udp)
     
@@ -50,7 +49,7 @@ public class TLMDataController: NSObject {
                     let buffer = self.tunnelSocket.messageBuffer!
                     let data = Data(buffer)
                     let packet = try self.decodeTelemetry(packet: data)
-                    if packet[.unixEpochTime] != nil {
+                    if packet.packetType == 0 {
                         self.isConnected = true
                         
                         DispatchQueue.main.async {
@@ -66,8 +65,8 @@ public class TLMDataController: NSObject {
                     
                     //This represents a connection type packet
                     //If it is connected, then it's probably a disconnection packet
-                    if let time = packet[.unixEpochTime] as? Int32 {
-                        self.isConnected = time > 0
+                    if packet.packetType == 0 {
+                        self.isConnected = packet.unixTime > 0
                         if !self.isConnected {                            
                             DispatchQueue.main.async {
                                 self.delegate?.remoteServerClosedConnection()
@@ -159,12 +158,12 @@ public class TLMDataController: NSObject {
     
     func decodeTelemetry(packet: Data) throws -> TelemetryPacket {
         //Initialize the output dictionary and set the offset cursor position to zero
-        var output = TelemetryPacket()
+        var telemetryPacket = TelemetryPacket()
         var offset = 0
         
         //Packets will always start with a packet type
         let packetType: Int32 = try packet.decode(atOffset: &offset)
-        output[.packetType] = packetType
+        telemetryPacket.packetType = packetType
         
         var bitfieldCheck: Int32 = 1
         
@@ -173,12 +172,12 @@ public class TLMDataController: NSObject {
         if packetType == 0 {
             //returned an acknowledgement packet
             let unixTime: Int32 = try packet.decode(atOffset: &offset)
-            output[.unixEpochTime] = unixTime
-            return output
+            telemetryPacket.unixTime = unixTime
+            return telemetryPacket
         }
         
         let universeTime: Float = try packet.decode(atOffset: &offset)
-        output[.universeTime] = universeTime
+        telemetryPacket[.universeTime] = universeTime
         
         //The first bit is for orbital data, since it is used so often
         if (packetType & bitfieldCheck) == bitfieldCheck {
@@ -191,14 +190,14 @@ public class TLMDataController: NSObject {
             let planetRadius: Float = try packet.decode(atOffset: &offset)
             let planetGravitationalParameter: Float = try packet.decode(atOffset: &offset)
             
-            output[.semiMajorAxis] = semiMajorAxis
-            output[.eccentricity] = eccentricity
-            output[.meanAnomaly] = meanAnomaly
-            output[.inclination] = inclination
-            output[.argumentOfPeriapsis] = argumentOfPeriapsis
-            output[.longitudeOfAscendingNode] = longitudeOfAscendingNode
-            output[.centralBodyRadius] = planetRadius
-            output[.centralBodyGravitationalParameter] = planetGravitationalParameter
+            telemetryPacket[.semiMajorAxis] = semiMajorAxis
+            telemetryPacket[.eccentricity] = eccentricity
+            telemetryPacket[.meanAnomaly] = meanAnomaly
+            telemetryPacket[.inclination] = inclination
+            telemetryPacket[.argumentOfPeriapsis] = argumentOfPeriapsis
+            telemetryPacket[.longitudeOfAscendingNode] = longitudeOfAscendingNode
+            telemetryPacket[.centralBodyRadius] = planetRadius
+            telemetryPacket[.centralBodyGravitationalParameter] = planetGravitationalParameter
         }
         
         //the next check is for RCS capacity
@@ -207,13 +206,13 @@ public class TLMDataController: NSObject {
         if (packetType & bitfieldCheck) == bitfieldCheck {
             let rcs: Float = try packet.decode(atOffset: &offset)
             let rcsCapacity: Float = try packet.decode(atOffset: &offset)
-            output[.rcsRemaining] = rcs
-            output[.rcsCapacity] = rcsCapacity
+            telemetryPacket[.rcsRemaining] = rcs
+            telemetryPacket[.rcsCapacity] = rcsCapacity
             
             let liquidFuel: Float = try packet.decode(atOffset: &offset)
             let liquidFuelCapacity: Float = try packet.decode(atOffset: &offset)
-            output[.fuelRemaining] = liquidFuel
-            output[.fuelCapacity] = liquidFuelCapacity
+            telemetryPacket[.fuelRemaining] = liquidFuel
+            telemetryPacket[.fuelCapacity] = liquidFuelCapacity
         }
         
         //the next check is for launch items
@@ -222,8 +221,8 @@ public class TLMDataController: NSObject {
             let lat: Float = try packet.decode(atOffset: &offset)
             let lon: Float = try packet.decode(atOffset: &offset)
             
-            output[.latitude] = lat
-            output[.longitude] = lon
+            telemetryPacket[.latitude] = lat
+            telemetryPacket[.longitude] = lon
         }
         
         //the next check is for surface velocity
@@ -236,14 +235,14 @@ public class TLMDataController: NSObject {
             let heightFromTerrain: Float = try packet.decode(atOffset: &offset)
             let verticalSpeed: Float = try packet.decode(atOffset: &offset)
             
-            output[.surfaceVelocityX] = shipSurfaceVelocityX
-            output[.surfaceVelocityY] = shipSurfaceVelocityY
-            output[.surfaceVelocityZ] = shipSurfaceVelocityZ
-            output[.heightFromTerrain] = heightFromTerrain
-            output[.verticalSpeed] = verticalSpeed
+            telemetryPacket[.surfaceVelocityX] = shipSurfaceVelocityX
+            telemetryPacket[.surfaceVelocityY] = shipSurfaceVelocityY
+            telemetryPacket[.surfaceVelocityZ] = shipSurfaceVelocityZ
+            telemetryPacket[.heightFromTerrain] = heightFromTerrain
+            telemetryPacket[.verticalSpeed] = verticalSpeed
         }
         
-        return output
+        return telemetryPacket
     }
     
     public func closeConnection() {
