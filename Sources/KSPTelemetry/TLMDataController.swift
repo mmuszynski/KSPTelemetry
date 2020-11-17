@@ -13,13 +13,12 @@ public protocol TLMDataControllerDelegate {
     func connectionDidConnect()
     func connectionDidLoseConnection()
     func remoteServerClosedConnection()
-    func connectionDidReturnNewData(packet: [TLMDataController.TelemetryKey:TLMDataController.TelemetryValue])
+    func connectionDidReturnNewData(packet: TLMDataController.TelemetryPacket)
     func connectionDidFailWithError(error: Error)
 }
 
 public class TLMDataController: NSObject {
-    public typealias TelemetryKey = TelemetryParameter
-    public typealias TelemetryValue = Codable
+    public typealias TelemetryPacket = [TelemetryParameter:TelemetryValue]
     
     private let tunnelSocket = Socket(format: .udp)
     
@@ -158,9 +157,9 @@ public class TLMDataController: NSObject {
         DispatchQueue.global().async { self.listenMethod() }
     }
     
-    func decodeTelemetry(packet: Data) throws -> [TelemetryKey:TelemetryValue] {
+    func decodeTelemetry(packet: Data) throws -> TelemetryPacket {
         //Initialize the output dictionary and set the offset cursor position to zero
-        var output = [TelemetryKey:TelemetryValue]()
+        var output = TelemetryPacket()
         var offset = 0
         
         //Packets will always start with a packet type
