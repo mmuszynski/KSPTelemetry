@@ -32,6 +32,7 @@ public class TLMDataController: NSObject {
     public var keepAlive = true
     private var keepAliveTime: TimeInterval = 0.0
     private var connectionExpiry: Date = Date()
+    private var keepAliveTimer: Timer?
     
     //Telemetry should not be accessed directly and should instead be taken from the delegate methods for thread safety
     private var telemetry = Dictionary<AnyHashable,Any>()
@@ -137,8 +138,8 @@ public class TLMDataController: NSObject {
         
         if keepAlive {
             keepAliveTime = rounded
-            let timer = Timer(fireAt: connectionExpiry.addingTimeInterval(-5.0), interval: 1.0, target: self, selector: #selector(TLMDataController.reopen), userInfo: nil, repeats: false)
-            RunLoop.main.add(timer, forMode: RunLoop.Mode.default)
+            keepAliveTimer = Timer(fireAt: connectionExpiry.addingTimeInterval(-5.0), interval: 1.0, target: self, selector: #selector(TLMDataController.reopen), userInfo: nil, repeats: false)
+            RunLoop.main.add(keepAliveTimer!, forMode: RunLoop.Mode.default)
         }
         
         //once the message is sent, start the
@@ -249,6 +250,8 @@ public class TLMDataController: NSObject {
     public func closeConnection() {
         do {
             try tunnelSocket.send("disconnect", toAddress: self.ipAddress, onService: .port(self.port))
+            self.keepAliveTimer?.invalidate()
+            self.keepAliveTimer = nil
         } catch {
             print("\(error)")
         }
