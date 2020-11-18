@@ -15,6 +15,7 @@ public protocol TLMDataControllerDelegate {
     func remoteServerClosedConnection()
     func connectionDidReturnNewData(packet: TelemetryPacket)
     func connectionDidFailWithError(error: Error)
+    func connectionDidTimeout()
 }
 
 public class TLMDataController: NSObject {
@@ -77,6 +78,13 @@ public class TLMDataController: NSObject {
 
                     DispatchQueue.main.async {
                         self.delegate?.connectionDidReturnNewData(packet: packet)
+                        
+                        if self.keepAlive && self.keepAliveTimer == nil {
+                            self.keepAliveTimer = Timer(fire: self.connectionExpiry.addingTimeInterval(-5.0), interval: 1.0, repeats: false, block: { _ in
+                                self.reopen()
+                            })
+                            RunLoop.main.add(self.keepAliveTimer!, forMode: RunLoop.Mode.default)
+                        }
                     }
                 }
             } catch {
@@ -134,11 +142,7 @@ public class TLMDataController: NSObject {
         let message = "connect:\(intSeconds)"
         try tunnelSocket.send(message, toAddress: self.ipAddress, onService: .port(self.port))
         
-        if keepAlive {
-            keepAliveTime = rounded
-            keepAliveTimer = Timer(fireAt: connectionExpiry.addingTimeInterval(-5.0), interval: 1.0, target: self, selector: #selector(TLMDataController.reopen), userInfo: nil, repeats: false)
-            RunLoop.main.add(keepAliveTimer!, forMode: RunLoop.Mode.default)
-        }
+        keepAliveTime = rounded
         
         //once the message is sent, start the
         beginBackgroundListening()
