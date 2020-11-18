@@ -92,8 +92,12 @@ public class TLMDataController: NSObject {
                 self.isConnected = false
                 
                 DispatchQueue.main.async {
-                    self.delegate?.connectionDidLoseConnection()
-                    self.delegate?.connectionDidFailWithError(error: ConnectionError.timeout)
+                    switch error {
+                    case SocketError.timeout:
+                        self.delegate?.connectionDidTimeout()
+                    default:
+                        self.delegate?.connectionDidLoseConnection()
+                    }
                 }
                 return
             }
@@ -148,7 +152,7 @@ public class TLMDataController: NSObject {
         beginBackgroundListening()
     }
     
-    @objc func reopen() {
+    func reopen() {
         do {
             try self.openConnection(until: Date().addingTimeInterval(keepAliveTime))
         } catch {
