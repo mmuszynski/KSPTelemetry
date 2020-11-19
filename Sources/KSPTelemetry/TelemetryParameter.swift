@@ -8,7 +8,7 @@
 
 import Foundation
 
-public enum TelemetryKey: String, Hashable, Codable {
+public enum TelemetryKey: String, Hashable, Codable, CaseIterable {
 
     //These are the parameters as they exist in the KSPUDPConnection.h file
     case universeTime
