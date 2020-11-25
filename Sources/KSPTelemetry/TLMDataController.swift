@@ -18,7 +18,7 @@ public protocol TLMDataControllerDelegate {
     func connectionDidTimeout()
 }
 
-public class TLMDataController: NSObject {
+public class TLMDataController {
     
     private let tunnelSocket = Socket(format: .udp)
     
@@ -106,7 +106,7 @@ public class TLMDataController: NSObject {
     
     public var isConnected = false
     
-    public override init() {
+    public init() {
         do {
             try self.tunnelSocket.open()
         } catch {
@@ -263,7 +263,7 @@ public class TLMDataController: NSObject {
         }
     }
     
-    public func sendCommand(named command: String, info: [AnyHashable:Any]?) {
+    public func sendCommand(named command: String, info: [AnyHashable:Any]? = nil) {
         do {
             try tunnelSocket.send("command:\(command)", toAddress: self.ipAddress, onService: .port(self.port))
         } catch {
