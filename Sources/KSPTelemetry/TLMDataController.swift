@@ -264,7 +264,11 @@ public class TLMDataController: NSObject {
     }
     
     public func sendCommand(named command: String, info: [AnyHashable:Any]?) {
-        
+        do {
+            try tunnelSocket.send("command:\(command)", toAddress: self.ipAddress, onService: .port(self.port))
+        } catch {
+            print("couldn't send command")
+        }
     }
 }
 
