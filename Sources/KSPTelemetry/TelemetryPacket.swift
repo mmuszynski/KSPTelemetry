@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct TelemetryPacket: Codable {
+public struct TelemetryPacket: Codable, Equatable {
     
     public var packetType: Int32 = 0
     public var unixTime: Int32 = 0
