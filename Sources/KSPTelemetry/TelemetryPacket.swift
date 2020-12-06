@@ -15,10 +15,6 @@ public struct TelemetryPacket: Codable, Equatable {
     public var keys: [TelemetryKey] {
         return Array(floatValues.keys)
     }
-    public var sortedKeys: [TelemetryKey] = []
-    private mutating func sortKeys() {
-        self.sortedKeys = keys.sorted(by: { $0.rawValue > $1.rawValue })
-    }
     
     private var floatValues: [TelemetryKey : Float] = [:]
     
@@ -28,7 +24,6 @@ public struct TelemetryPacket: Codable, Equatable {
         }
         set {
             floatValues[key] = newValue
-            self.sortKeys()
         }
     }
 }
