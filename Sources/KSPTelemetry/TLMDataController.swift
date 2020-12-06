@@ -33,6 +33,8 @@ public class TLMDataController {
     private var connectionExpiry: Date = Date()
     private var keepAliveTimer: Timer?
     
+    internal var packetDebugHandler: ((Data)->Void)?
+    
     //Telemetry should not be accessed directly and should instead be taken from the delegate methods for thread safety
     private var telemetry = Dictionary<AnyHashable,Any>()
     
@@ -165,6 +167,9 @@ public class TLMDataController {
     }
     
     func decodeTelemetry(packet: Data) throws -> TelemetryPacket {
+        //Run the debug handler if necessary
+        packetDebugHandler?(packet)
+        
         //Initialize the output dictionary and set the offset cursor position to zero
         var telemetryPacket = TelemetryPacket()
         var offset = 0
@@ -189,65 +194,44 @@ public class TLMDataController {
         
         //The first bit is for orbital data, since it is used so often
         if (packetType & bitfieldCheck) == bitfieldCheck {
-            let semiMajorAxis: Float = try packet.decode(atOffset: &offset)
-            let eccentricity: Float = try packet.decode(atOffset: &offset)
-            let meanAnomaly: Float = try packet.decode(atOffset: &offset)
-            let inclination: Float = try packet.decode(atOffset: &offset)
-            let longitudeOfAscendingNode: Float = try packet.decode(atOffset: &offset)
-            let argumentOfPeriapsis: Float = try packet.decode(atOffset: &offset)
-            let planetRadius: Float = try packet.decode(atOffset: &offset)
-            let planetGravitationalParameter: Float = try packet.decode(atOffset: &offset)
-            
-            telemetryPacket[.semiMajorAxis] = semiMajorAxis
-            telemetryPacket[.eccentricity] = eccentricity
-            telemetryPacket[.meanAnomaly] = meanAnomaly
-            telemetryPacket[.inclination] = inclination
-            telemetryPacket[.argumentOfPeriapsis] = argumentOfPeriapsis
-            telemetryPacket[.longitudeOfAscendingNode] = longitudeOfAscendingNode
-            telemetryPacket[.centralBodyRadius] = planetRadius
-            telemetryPacket[.centralBodyGravitationalParameter] = planetGravitationalParameter
+            telemetryPacket[.semiMajorAxis] = try packet.decode(atOffset: &offset)
+            telemetryPacket[.eccentricity] = try packet.decode(atOffset: &offset)
+            telemetryPacket[.meanAnomaly] = try packet.decode(atOffset: &offset)
+            telemetryPacket[.inclination] = try packet.decode(atOffset: &offset)
+            telemetryPacket[.argumentOfPeriapsis] = try packet.decode(atOffset: &offset)
+            telemetryPacket[.longitudeOfAscendingNode] = try packet.decode(atOffset: &offset)
+            telemetryPacket[.centralBodyRadius] = try packet.decode(atOffset: &offset)
+            telemetryPacket[.centralBodyGravitationalParameter] = try packet.decode(atOffset: &offset)
         }
         
         //the next check is for RCS capacity
         //and liquid fuel
         bitfieldCheck = bitfieldCheck << 1
         if (packetType & bitfieldCheck) == bitfieldCheck {
-            let rcs: Float = try packet.decode(atOffset: &offset)
-            let rcsCapacity: Float = try packet.decode(atOffset: &offset)
-            telemetryPacket[.rcsRemaining] = rcs
-            telemetryPacket[.rcsCapacity] = rcsCapacity
-            
-            let liquidFuel: Float = try packet.decode(atOffset: &offset)
-            let liquidFuelCapacity: Float = try packet.decode(atOffset: &offset)
-            telemetryPacket[.fuelRemaining] = liquidFuel
-            telemetryPacket[.fuelCapacity] = liquidFuelCapacity
+            telemetryPacket[.rcsRemaining] = try packet.decode(atOffset: &offset)
+            telemetryPacket[.rcsCapacity] = try packet.decode(atOffset: &offset)
+            telemetryPacket[.fuelRemaining] = try packet.decode(atOffset: &offset)
+            telemetryPacket[.fuelCapacity] = try packet.decode(atOffset: &offset)
+            telemetryPacket[.powerRemaining] = try packet.decode(atOffset: &offset)
+            telemetryPacket[.powerCapacity] = try packet.decode(atOffset: &offset)
         }
         
         //the next check is for launch items
         bitfieldCheck = bitfieldCheck << 1
         if (packetType & bitfieldCheck) == bitfieldCheck {
-            let lat: Float = try packet.decode(atOffset: &offset)
-            let lon: Float = try packet.decode(atOffset: &offset)
-            
-            telemetryPacket[.latitude] = lat
-            telemetryPacket[.longitude] = lon
+            telemetryPacket[.latitude] = try packet.decode(atOffset: &offset)
+            telemetryPacket[.longitude] = try packet.decode(atOffset: &offset)
         }
         
         //the next check is for surface velocity
         //currently surface velocity is screwed up, but why?
         bitfieldCheck = bitfieldCheck << 1
         if (packetType & bitfieldCheck) == bitfieldCheck {
-            let shipSurfaceVelocityX: Float = try packet.decode(atOffset: &offset)
-            let shipSurfaceVelocityY: Float = try packet.decode(atOffset: &offset)
-            let shipSurfaceVelocityZ: Float = try packet.decode(atOffset: &offset)
-            let heightFromTerrain: Float = try packet.decode(atOffset: &offset)
-            let verticalSpeed: Float = try packet.decode(atOffset: &offset)
-            
-            telemetryPacket[.surfaceVelocityX] = shipSurfaceVelocityX
-            telemetryPacket[.surfaceVelocityY] = shipSurfaceVelocityY
-            telemetryPacket[.surfaceVelocityZ] = shipSurfaceVelocityZ
-            telemetryPacket[.heightFromTerrain] = heightFromTerrain
-            telemetryPacket[.verticalSpeed] = verticalSpeed
+            telemetryPacket[.surfaceVelocityX] = try packet.decode(atOffset: &offset)
+            telemetryPacket[.surfaceVelocityY] = try packet.decode(atOffset: &offset)
+            telemetryPacket[.surfaceVelocityZ] = try packet.decode(atOffset: &offset)
+            telemetryPacket[.heightFromTerrain] = try packet.decode(atOffset: &offset)
+            telemetryPacket[.verticalSpeed] = try packet.decode(atOffset: &offset)
         }
         
         return telemetryPacket
