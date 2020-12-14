@@ -201,7 +201,6 @@ public class TLMDataController {
             telemetryPacket[.argumentOfPeriapsis] = try packet.decode(atOffset: &offset)
             telemetryPacket[.longitudeOfAscendingNode] = try packet.decode(atOffset: &offset)
             telemetryPacket[.centralBodyRadius] = try packet.decode(atOffset: &offset)
-            telemetryPacket[.centralBodyGravitationalParameter] = try packet.decode(atOffset: &offset)
         }
         
         //the next check is for RCS capacity
