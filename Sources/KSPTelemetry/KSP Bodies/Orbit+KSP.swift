@@ -16,7 +16,7 @@ private extension Double {
 }
 
 extension Orbit {
-    public static var moho = Orbit(semiMajorAxis: 5263138304.0.meters,
+    public static let moho = Orbit(semiMajorAxis: 5263138304.0.meters,
                                    eccentricity: 0.2,
                                    meanAnomaly: 3.14.rad,
                                    inclination: 7.0.deg,
@@ -24,7 +24,7 @@ extension Orbit {
                                    argumentOfPeriapsis: 15.0.deg,
                                    centralBody: .kerbol)
     
-    public static var eve = Orbit(semiMajorAxis: 9832684544.meters,
+    public static let eve = Orbit(semiMajorAxis: 9832684544.meters,
                                   eccentricity: 0.01,
                                   meanAnomaly: 3.14.radians,
                                   inclination: 2.1.degrees,
@@ -32,7 +32,7 @@ extension Orbit {
                                   argumentOfPeriapsis: 0.degrees,
                                   centralBody: .kerbol)
 
-    public static var kerbin = Orbit(semiMajorAxis: 13599840256,
+    public static let kerbin = Orbit(semiMajorAxis: 13599840256,
                                      eccentricity: 0,
                                      meanAnomaly: 3.14,
                                      inclination: 0,
@@ -40,7 +40,7 @@ extension Orbit {
                                      argumentOfPeriapsis: 0,
                                      centralBody: .kerbol)
     
-    public static var mun = Orbit(semiMajorAxis: 1.2e7,
+    public static let mun = Orbit(semiMajorAxis: 1.2e7,
                                   eccentricity: 0,
                                   meanAnomaly: 1.7,
                                   inclination: 0,
@@ -48,7 +48,7 @@ extension Orbit {
                                   argumentOfPeriapsis: 0,
                                   centralBody: .kerbin)
     
-    public static var minmus = Orbit(semiMajorAxis: 4.7e7.meters,
+    public static let minmus = Orbit(semiMajorAxis: 4.7e7.meters,
                                      eccentricity: 0.0,
                                      meanAnomaly: 0.9.radians,
                                      inclination: 6.0.degrees,
@@ -56,7 +56,7 @@ extension Orbit {
                                      argumentOfPeriapsis: 38.0.degrees,
                                      centralBody: .kerbin)
     
-    public static var duna = Orbit(semiMajorAxis: 20726155264.meters,
+    public static let duna = Orbit(semiMajorAxis: 20726155264.meters,
                                    eccentricity: 0.051,
                                    meanAnomaly: 3.14.radians,
                                    inclination: 0.06.degrees,
@@ -64,7 +64,7 @@ extension Orbit {
                                    argumentOfPeriapsis: 0.degrees,
                                    centralBody: .kerbol)
     
-    public static var jool = Orbit(semiMajorAxis: 68773560320.0.meters,
+    public static let jool = Orbit(semiMajorAxis: 68773560320.0.meters,
                                    eccentricity: 0.05,
                                    meanAnomaly: 1.304.radians,
                                    inclination: 0.1.degrees,
@@ -72,7 +72,7 @@ extension Orbit {
                                    argumentOfPeriapsis: 0.0.degrees,
                                    centralBody: .kerbol)
     
-    public static var dres = Orbit(semiMajorAxis: 40839348203.0.meters,
+    public static let dres = Orbit(semiMajorAxis: 40839348203.0.meters,
                                    eccentricity: 0.145,
                                    meanAnomaly: 5.radians,
                                    inclination: 3.14.degrees,
@@ -80,7 +80,7 @@ extension Orbit {
                                    argumentOfPeriapsis: 90.degrees,
                                    centralBody: .kerbol)
     
-    public static var eeloo = Orbit(semiMajorAxis: 90118820000.0.meters,
+    public static let eeloo = Orbit(semiMajorAxis: 90118820000.0.meters,
                                     eccentricity: 0.26,
                                     meanAnomaly: 6.15.radians,
                                     inclination: 3.14.degrees,
