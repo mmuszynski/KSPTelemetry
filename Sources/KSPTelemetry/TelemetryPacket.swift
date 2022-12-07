@@ -7,6 +7,9 @@
 
 import Foundation
 
+@available(*, unavailable, renamed: "TelemetryPacket")
+public struct TelemetryDictionary { }
+
 public struct TelemetryPacket: Codable, Equatable {
     
     public var packetType: Int32 = 0
