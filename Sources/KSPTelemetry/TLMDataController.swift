@@ -253,12 +253,6 @@ public class TLMDataController {
             print("couldn't send command")
         }
     }
-    
-    @available(*, unavailable, renamed: "TelemetryKey")
-    public struct TelemetryKey {}
-    
-    @available(*, unavailable, renamed: "TelemetryValue")
-    public struct TelemetryValue {}
 }
 
 public extension TLMDataController {
