@@ -1,16 +1,23 @@
 {
-  "object": {
-    "pins": [
-      {
-        "package": "SocketWrapper",
-        "repositoryURL": "https://bitbucket.org/mmuszynski/socketwrapper/src/master/",
-        "state": {
-          "branch": "master",
-          "revision": "aa6660d16e27836a82732c3cf99a382868ff207d",
-          "version": null
-        }
+  "pins" : [
+    {
+      "identity" : "keplerian",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/mmuszynski/Keplerian.git",
+      "state" : {
+        "branch" : "master",
+        "revision" : "9053de3842c5d688e3963cf0dd2722095d45ffbe"
       }
-    ]
-  },
-  "version": 1
+    },
+    {
+      "identity" : "socketwrapper",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/mmuszynski/Socketwrapper.git",
+      "state" : {
+        "branch" : "master",
+        "revision" : "db4a6e6f42ddd330b0e1b5202b368b8f9629a523"
+      }
+    }
+  ],
+  "version" : 2
 }
