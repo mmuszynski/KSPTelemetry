@@ -33,7 +33,7 @@ public class TLMDataController {
     private var connectionExpiry: Date = Date()
     private var keepAliveTimer: Timer?
     
-    internal var packetDebugHandler: ((Data)->Void)?
+    public var packetDebugHandler: ((Data)->Void)?
     
     //Telemetry should not be accessed directly and should instead be taken from the delegate methods for thread safety
     private var telemetry = Dictionary<AnyHashable,Any>()
