@@ -5,17 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/mmuszynski/Keplerian.git",
       "state" : {
-        "revision" : "b894ee7c02e8efe3d0372bdae6ebc1d60b61cd9b",
-        "version" : "0.1.0"
-      }
-    },
-    {
-      "identity" : "socketwrapper",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/mmuszynski/Socketwrapper.git",
-      "state" : {
-        "revision" : "db4a6e6f42ddd330b0e1b5202b368b8f9629a523",
-        "version" : "1.0.0"
+        "branch" : "master",
+        "revision" : "c944f6f49dee1c40a05940b2c0ab868a957a3b67"
       }
     }
   ],
