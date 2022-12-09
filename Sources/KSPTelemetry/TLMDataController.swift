@@ -47,11 +47,14 @@ public class TLMDataController {
                 //This is the receive method that implements recvfrom() in the blocking form
                 try self.tunnelSocket.blockingReceive()
                 
+                
                 if !self.isConnected {
                     //check the data message to see if the connection is received
                     let buffer = self.tunnelSocket.messageBuffer!
                     let data = Data(buffer)
-                    let packet = try self.decodeTelemetry(packet: data)
+                    packetDebugHandler?(data)
+
+                    let packet = try TelemetryPacket(with: data)
                     if packet.packetType == 0 {
                         self.isConnected = true
                         
@@ -64,8 +67,10 @@ public class TLMDataController {
                     //Until connectionDidReturnNewData() is updated to take an argument, the data will just be ignored
                     let buffer = self.tunnelSocket.messageBuffer!
                     let data = Data(buffer)
-                    let packet = try self.decodeTelemetry(packet: data)
-                    
+                    packetDebugHandler?(data)
+
+                    let packet = try TelemetryPacket(with: data)
+
                     //This represents a connection type packet
                     //If it is connected, then it's probably a disconnection packet
                     if packet.packetType == 0 {
@@ -164,77 +169,6 @@ public class TLMDataController {
     
     func beginBackgroundListening() {
         DispatchQueue.global().async { self.listenMethod() }
-    }
-    
-    func decodeTelemetry(packet: Data) throws -> TelemetryPacket {
-        //Run the debug handler if necessary
-        packetDebugHandler?(packet)
-        
-        //Initialize the output dictionary and set the offset cursor position to zero
-        var telemetryPacket = TelemetryPacket()
-        var offset = 0
-        
-        //Packets will always start with a packet type
-        let packetType: Int32 = try packet.decode(atOffset: &offset)
-        telemetryPacket.packetType = packetType
-        
-        var bitfieldCheck: Int32 = 1
-        
-        //If the packet type is zero, then this represents a connection received packet
-        //otherwise, the packet type represents a test bitfield that can represent a variety of data
-        if packetType == 0 {
-            //returned an acknowledgement packet
-            let unixTime: Int32 = try packet.decode(atOffset: &offset)
-            telemetryPacket.unixTime = unixTime
-            return telemetryPacket
-        }
-        
-        let universeTime: Float = try packet.decode(atOffset: &offset)
-        telemetryPacket[.universeTime] = universeTime
-        
-        //The first bit is for orbital data, since it is used so often
-        if (packetType & bitfieldCheck) == bitfieldCheck {
-            telemetryPacket[.semiMajorAxis] = try packet.decode(atOffset: &offset)
-            telemetryPacket[.eccentricity] = try packet.decode(atOffset: &offset)
-            telemetryPacket[.meanAnomaly] = try packet.decode(atOffset: &offset)
-            telemetryPacket[.inclination] = try packet.decode(atOffset: &offset)
-            telemetryPacket[.longitudeOfAscendingNode] = try packet.decode(atOffset: &offset)
-            telemetryPacket[.argumentOfPeriapsis] = try packet.decode(atOffset: &offset)
-            telemetryPacket[.centralBodyRadius] = try packet.decode(atOffset: &offset)
-            telemetryPacket[.centralBodyGravitationalParameter] = try packet.decode(atOffset: &offset)
-        }
-        
-        //the next check is for RCS capacity
-        //and liquid fuel
-        bitfieldCheck = bitfieldCheck << 1
-        if (packetType & bitfieldCheck) == bitfieldCheck {
-            telemetryPacket[.rcsRemaining] = try packet.decode(atOffset: &offset)
-            telemetryPacket[.rcsCapacity] = try packet.decode(atOffset: &offset)
-            telemetryPacket[.fuelRemaining] = try packet.decode(atOffset: &offset)
-            telemetryPacket[.fuelCapacity] = try packet.decode(atOffset: &offset)
-            telemetryPacket[.powerRemaining] = try packet.decode(atOffset: &offset)
-            telemetryPacket[.powerCapacity] = try packet.decode(atOffset: &offset)
-        }
-        
-        //the next check is for launch items
-        bitfieldCheck = bitfieldCheck << 1
-        if (packetType & bitfieldCheck) == bitfieldCheck {
-            telemetryPacket[.latitude] = try packet.decode(atOffset: &offset)
-            telemetryPacket[.longitude] = try packet.decode(atOffset: &offset)
-        }
-        
-        //the next check is for surface velocity
-        //currently surface velocity is screwed up, but why?
-        bitfieldCheck = bitfieldCheck << 1
-        if (packetType & bitfieldCheck) == bitfieldCheck {
-            telemetryPacket[.surfaceVelocityX] = try packet.decode(atOffset: &offset)
-            telemetryPacket[.surfaceVelocityY] = try packet.decode(atOffset: &offset)
-            telemetryPacket[.surfaceVelocityZ] = try packet.decode(atOffset: &offset)
-            telemetryPacket[.heightFromTerrain] = try packet.decode(atOffset: &offset)
-            telemetryPacket[.verticalSpeed] = try packet.decode(atOffset: &offset)
-        }
-        
-        return telemetryPacket
     }
     
     public func closeConnection() {
