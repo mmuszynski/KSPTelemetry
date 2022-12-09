@@ -5,8 +5,13 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/mmuszynski/Keplerian.git",
       "state" : {
+<<<<<<< HEAD
         "branch" : "master",
         "revision" : "c944f6f49dee1c40a05940b2c0ab868a957a3b67"
+=======
+        "revision" : "b894ee7c02e8efe3d0372bdae6ebc1d60b61cd9b",
+        "version" : "0.1.0"
+>>>>>>> more strict requirements for keplerian
       }
     }
   ],
