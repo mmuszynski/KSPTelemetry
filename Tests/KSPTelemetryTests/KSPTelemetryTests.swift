@@ -43,6 +43,48 @@ class KSPTelemetryTests: XCTestCase {
         XCTAssertNoThrow(try TelemetryPacket(with: Data(hex)))
     }
     
+    /// Tests to see whether the connection will time out
+    func testTimeout() {
+        let timeoutExpectation = XCTestExpectation(description: "shouldTimeout")
+        let controller = TLMDataController()
+        controller.timeout = 1
+        controller.onTimeout {
+            timeoutExpectation.fulfill()
+        }
+        
+        do {
+            try controller.connect(to: "192.168.1.1", on: "9999")
+            wait(for: [timeoutExpectation], timeout: 10)
+            XCTAssertFalse(controller.isConnected)
+        } catch {
+            XCTFail("Unexpected error \(error)")
+        }
+    }
+    
+    /// This should only be tested when the server is running on the same device
+    func testActiveConnection() {
+        let timeoutExpectation = XCTestExpectation(description: "shouldTimeout")
+        timeoutExpectation.isInverted = true
+        
+        let controller = TLMDataController()
+        controller.timeout = 1
+        controller.onTimeout {
+            print("timeout")
+            timeoutExpectation.fulfill()
+        }
+        
+        controller.packetDebugHandler = { data in
+            print(data.count)
+        }
+        
+        do {
+            try controller.connect(to: "192.168.1.2", on: "7000")
+            wait(for: [timeoutExpectation], timeout: 3)
+        } catch {
+            XCTFail("Unexpected error \(error)")
+        }
+    }
+    
 }
 
 extension Data {

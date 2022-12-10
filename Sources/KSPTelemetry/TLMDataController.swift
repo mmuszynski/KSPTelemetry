@@ -11,12 +11,23 @@ import Network
 
 public class TLMDataController: ObservableObject {
     
+    private var connectionQueue = DispatchQueue(label: "NWConnectionQueue", qos: .utility)
     private var connection: NWConnection?
     
     public static let shared = TLMDataController()
     public var ipAddress: String = "192.168.1.1"
     public var port: Int = 7000
+    
     public var timeout: Double = 5.0
+    private var timeoutTimer: Timer?
+    private var timeoutHandler: (()->())?
+    
+    /// Sets a completion handler when the connection times out
+    ///
+    /// - Parameter handler: The handler
+    func onTimeout(_ handler: @escaping ()->()) {
+        self.timeoutHandler = handler
+    }
     
     private var connectionExpiry: Date = Date()
     
@@ -31,16 +42,10 @@ public class TLMDataController: ObservableObject {
         }
     }
     
-    public var isConnected = false
-    
-    @available(*, unavailable, renamed: "connect(to:on:until:)")
-    public func openConnection(until expiration: Date? = nil, atAddress newAddress: String? = nil, onPort newPort: Int? = nil) throws {
-        fatalError()
-    }
-    
-    @available(*, unavailable)
-    func reopen() {
-        fatalError()
+    public var isConnected: Bool {
+        get {
+            connection != nil
+        }
     }
     
     /*
@@ -79,6 +84,7 @@ public class TLMDataController: ObservableObject {
         
         //Create the connection using the host and port
         let connection = NWConnection(host: host, port: port, using: .udp)
+        connection.start(queue: self.connectionQueue)
         
         //come up with expiration date
         if let date = expiration {
@@ -102,7 +108,15 @@ public class TLMDataController: ObservableObject {
         //"debug" asks for one message to be sent back
         let message = "connect:\(intSeconds)"
         let messageData = message.data(using: .utf8)
+        
+        self.timeoutTimer = Timer.scheduledTimer(withTimeInterval: self.timeout, repeats: false) { timer in
+            self.timeoutHandler?()
+            self.connection = nil
+            self.timeoutTimer = nil
+        }
+        
         connection.send(content: messageData, completion: .contentProcessed { error in
+            self.resetTimeout()
             self.receive(on: connection)
         })
     }
@@ -122,6 +136,9 @@ public class TLMDataController: ObservableObject {
                 print("connection received no data")
             }
             
+            //if the data did come through, run the debug handler if it exists
+            self.packetDebugHandler?(data!)
+            
             do {
                 let packet = try TelemetryPacket(with: data!)
                 self.currentPacket = packet
@@ -129,7 +146,17 @@ public class TLMDataController: ObservableObject {
                 print("Error decoding packet: \(error)")
             }
             
+            self.resetTimeout()
             self.receive(on: connection)
+        }
+    }
+    
+    func resetTimeout() {
+        self.timeoutTimer?.invalidate()
+        self.timeoutTimer = Timer.scheduledTimer(withTimeInterval: self.timeout, repeats: false) { timer in
+            self.timeoutHandler?()
+            self.connection = nil
+            self.timeoutTimer = nil
         }
     }
 }
