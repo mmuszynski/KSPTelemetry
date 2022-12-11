@@ -54,7 +54,7 @@ class KSPTelemetryTests: XCTestCase {
         
         do {
             try controller.connect(to: "192.168.1.1", on: "9999")
-            wait(for: [timeoutExpectation], timeout: 10)
+            wait(for: [timeoutExpectation], timeout: 5)
             XCTAssertFalse(controller.isConnected)
         } catch {
             XCTFail("Unexpected error \(error)")
@@ -85,27 +85,33 @@ class KSPTelemetryTests: XCTestCase {
         }
     }
     
-    func testConnectionForAsLongAsPossible() {
+    func testContinousConnection() {
         let timeoutExpectation = XCTestExpectation(description: "just wait for a long time")
+        timeoutExpectation.isInverted = true
         
         let controller = TLMDataController()
         controller.timeout = 5
         
         controller.onTimeout {
-            XCTFail("Controller received \(controller.packetHistory.count) packets")
+            XCTFail("Controller timed out after receiving \(controller.packetHistory.count) packets")
+            timeoutExpectation.fulfill()
         }
         
-        var minutes = 60 * 6.0
+        let minutes = 60 * 6.0
+        var connectionTime = Date()
         
         controller.packetDebugHandler = { _ in
-            if controller.packetHistory.count % 100 == 0 {
-                print(controller.packetHistory.count)
+            if controller.packetHistory.count == 1 {
+                connectionTime = Date()
+            }
+            if controller.packetHistory.count % 1000 == 1 {
+                print("connection has been active for \(Date().timeIntervalSince(connectionTime))s")
             }
         }
         
         do {
-            try controller.connect(to: "192.168.1.2", on: "7000", until: Date().advanced(by: 60 * minutes))
-            wait(for: [timeoutExpectation], timeout: 60 * minutes + 30)
+            try controller.connect(to: "192.168.1.2", on: "7000", until: .distantFuture)
+            wait(for: [timeoutExpectation], timeout: 60 * minutes)
             XCTFail("Controller received \(controller.packetHistory.count) packets")
         } catch {
             XCTFail("Unexpected error \(error)")

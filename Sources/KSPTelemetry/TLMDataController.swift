@@ -15,8 +15,8 @@ public class TLMDataController: ObservableObject {
     private var connection: NWConnection?
     
     public static let shared = TLMDataController()
-    public var ipAddress: String = "192.168.1.1"
-    public var port: Int = 7000
+    @Published public var ipAddress: String = "192.168.1.1"
+    @Published public var port: Int = 7000
     
     public var timeout: Double = 5.0
     private var timeoutTimer: Timer?
@@ -33,8 +33,8 @@ public class TLMDataController: ObservableObject {
     
     public var packetDebugHandler: ((Data)->Void)?
     
-    var packetHistory: [TelemetryPacket] = []
-    @Published var currentPacket: TelemetryPacket? {
+    public var packetHistory: [TelemetryPacket] = []
+    @Published public var currentPacket: TelemetryPacket? {
         didSet {
             if let currentPacket {
                 packetHistory.append(currentPacket)
@@ -106,14 +106,13 @@ public class TLMDataController: ObservableObject {
         //"disconnect" asks to be disconnected
         //"continuous" asks for a continuous connection. not sure if this will be robust enough
         //"debug" asks for one message to be sent back
-        let message = "connect:\(intSeconds)"
+        var message = "connect:\(intSeconds)"
+        if self.connectionExpiry == .distantFuture {
+            message = "continuous"
+        }
         let messageData = message.data(using: .utf8)
         
-        self.timeoutTimer = Timer.scheduledTimer(withTimeInterval: self.timeout, repeats: false) { timer in
-            self.timeoutHandler?()
-            self.connection = nil
-            self.timeoutTimer = nil
-        }
+        self.resetTimeout()
         
         connection.send(content: messageData, completion: .contentProcessed { error in
             self.resetTimeout()
@@ -153,11 +152,12 @@ public class TLMDataController: ObservableObject {
     
     func resetTimeout() {
         self.timeoutTimer?.invalidate()
-        self.timeoutTimer = Timer.scheduledTimer(withTimeInterval: self.timeout, repeats: false) { timer in
+        self.timeoutTimer = Timer(timeInterval: self.timeout, repeats: false) { timer in
             self.timeoutHandler?()
             self.connection = nil
             self.timeoutTimer = nil
         }
+        RunLoop.main.add(self.timeoutTimer!, forMode: .common)
     }
 }
 
