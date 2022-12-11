@@ -85,6 +85,33 @@ class KSPTelemetryTests: XCTestCase {
         }
     }
     
+    func testConnectionForAsLongAsPossible() {
+        let timeoutExpectation = XCTestExpectation(description: "just wait for a long time")
+        
+        let controller = TLMDataController()
+        controller.timeout = 5
+        
+        controller.onTimeout {
+            XCTFail("Controller received \(controller.packetHistory.count) packets")
+        }
+        
+        var minutes = 60 * 6.0
+        
+        controller.packetDebugHandler = { _ in
+            if controller.packetHistory.count % 100 == 0 {
+                print(controller.packetHistory.count)
+            }
+        }
+        
+        do {
+            try controller.connect(to: "192.168.1.2", on: "7000", until: Date().advanced(by: 60 * minutes))
+            wait(for: [timeoutExpectation], timeout: 60 * minutes + 30)
+            XCTFail("Controller received \(controller.packetHistory.count) packets")
+        } catch {
+            XCTFail("Unexpected error \(error)")
+        }
+    }
+    
 }
 
 extension Data {
