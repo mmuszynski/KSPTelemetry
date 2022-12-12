@@ -15,6 +15,8 @@ public class TLMDataController: ObservableObject {
     private var connection: NWConnection?
     
     public static let shared = TLMDataController()
+    public init() {}
+    
     @Published public var ipAddress: String = "192.168.1.1"
     @Published public var port: Int = 7000
     
