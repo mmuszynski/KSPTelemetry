@@ -9,16 +9,13 @@
 import Foundation
 import Network
 
-public class TLMDataController: ObservableObject {
+public class TLMDataController {
     
     private var connectionQueue = DispatchQueue(label: "NWConnectionQueue", qos: .utility)
     private var connection: NWConnection?
     
     public static let shared = TLMDataController()
     public init() {}
-    
-    @Published public var ipAddress: String = "192.168.1.1"
-    @Published public var port: Int = 7000
     
     public var timeout: Double = 5.0
     private var timeoutTimer: Timer?
@@ -27,16 +24,28 @@ public class TLMDataController: ObservableObject {
     /// Sets a completion handler when the connection times out
     ///
     /// - Parameter handler: The handler
-    func onTimeout(_ handler: @escaping ()->()) {
+    public func onTimeout(_ handler: @escaping ()->()) {
         self.timeoutHandler = handler
+    }
+    
+    public typealias TelemetryPacketHandler = (TelemetryPacket)->Void
+    
+    /// A completion handler for the receipt of a packet handler from the server
+    private var packetHandler: TelemetryPacketHandler?
+    
+    /// Sets a completion handler for each new packet
+    /// - Parameter handler: The code to run when a new packet has been received
+    func onPacket(_ handler: TelemetryPacketHandler?) {
+        self.packetHandler = handler
     }
     
     private var connectionExpiry: Date = Date()
     
-    public var packetDebugHandler: ((Data)->Void)?
+    public typealias PacketDebugHandlerType = (Data)->Void
+    public var packetDebugHandler: PacketDebugHandlerType?
     
     public var packetHistory: [TelemetryPacket] = []
-    @MainActor @Published public var currentPacket: TelemetryPacket? {
+    public var currentPacket: TelemetryPacket? {
         didSet {
             if let currentPacket {
                 packetHistory.append(currentPacket)
@@ -142,11 +151,7 @@ public class TLMDataController: ObservableObject {
             
             do {
                 let packet = try TelemetryPacket(with: data!)
-                Task {
-                    await MainActor.run {
-                        self.currentPacket = packet
-                    }
-                }
+                self.currentPacket = packet
             } catch {
                 print("Error decoding packet: \(error)")
             }
