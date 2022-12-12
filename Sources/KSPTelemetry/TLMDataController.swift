@@ -35,7 +35,7 @@ public class TLMDataController {
     
     /// Sets a completion handler for each new packet
     /// - Parameter handler: The code to run when a new packet has been received
-    func onPacket(_ handler: TelemetryPacketHandler?) {
+    public func onPacket(_ handler: TelemetryPacketHandler?) {
         self.packetHandler = handler
     }
     
@@ -152,6 +152,7 @@ public class TLMDataController {
             do {
                 let packet = try TelemetryPacket(with: data!)
                 self.currentPacket = packet
+                self.packetHandler?(packet)
             } catch {
                 print("Error decoding packet: \(error)")
             }
