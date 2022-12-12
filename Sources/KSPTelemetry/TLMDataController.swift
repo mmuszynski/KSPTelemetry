@@ -36,7 +36,7 @@ public class TLMDataController: ObservableObject {
     public var packetDebugHandler: ((Data)->Void)?
     
     public var packetHistory: [TelemetryPacket] = []
-    @Published public var currentPacket: TelemetryPacket? {
+    @MainActor @Published public var currentPacket: TelemetryPacket? {
         didSet {
             if let currentPacket {
                 packetHistory.append(currentPacket)
@@ -142,7 +142,11 @@ public class TLMDataController: ObservableObject {
             
             do {
                 let packet = try TelemetryPacket(with: data!)
-                self.currentPacket = packet
+                Task {
+                    await MainActor.run {
+                        self.currentPacket = packet
+                    }
+                }
             } catch {
                 print("Error decoding packet: \(error)")
             }
