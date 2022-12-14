@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Keplerian
 
 @available(*, unavailable, renamed: "TelemetryPacket")
 public struct TelemetryDictionary { }
@@ -32,6 +33,30 @@ public struct TelemetryPacket: Codable, Equatable {
         set {
             floatValues[key] = newValue
         }
+    }
+    
+    public var orbit: Orbit? {
+        guard let semiMajorAxis = self[.semiMajorAxis],
+              let eccentricity = self[.eccentricity],
+              let meanAnomaly = self[.meanAnomaly],
+              let inclination = self[.inclination],
+              let LAN = self[.longitudeOfAscendingNode],
+              let argumentOfPeriapsis = self[.argumentOfPeriapsis],
+              let centralBody = CelestialBody.allKSPBodies.first(where: { body in
+                  guard let radius = self[.centralBodyRadius] else { return false }
+                  return Float(body.radius) == radius
+              })
+        else {
+            return nil
+        }
+        
+        return Orbit(semiMajorAxis: Double(semiMajorAxis),
+                     eccentricity: Double(eccentricity),
+                     meanAnomaly: Double(meanAnomaly),
+                     inclination: Double(inclination),
+                     LAN: Double(LAN),
+                     argumentOfPeriapsis: Double(argumentOfPeriapsis),
+                     centralBody: centralBody)
     }
     
     private init() {}
