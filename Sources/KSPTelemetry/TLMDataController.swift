@@ -71,9 +71,18 @@ public class TLMDataController {
     
     /// When an error has been made in configuring the socket
     /// e.g. the port has been supplied, but it cannot be made into a valid port for NWConnection
-    enum ConfigurationError: Error {
+    enum ConfigurationError: LocalizedError {
         case invalidAddress(_ address: String)
         case invalidPort(_ port: String)
+        
+        var errorDescription: String? {
+            switch self {
+            case .invalidAddress(let address):
+                return "Invalid IPv4 address: \(address)"
+            case .invalidPort(let port):
+                return "Invalid port: \(port)"
+            }
+        }
     }
     
     /// Creates a connection to the remote server and sends a connection request packet, opening the connection to the remote
