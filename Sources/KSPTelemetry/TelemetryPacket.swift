@@ -50,13 +50,17 @@ public struct TelemetryPacket: Codable, Equatable {
             return nil
         }
         
-        return Orbit(semiMajorAxis: Double(semiMajorAxis),
-                     eccentricity: Double(eccentricity),
-                     meanAnomaly: Double(meanAnomaly),
-                     inclination: Double(inclination),
-                     LAN: Double(LAN),
-                     argumentOfPeriapsis: Double(argumentOfPeriapsis),
-                     centralBody: centralBody)
+        let orbit = Orbit(semiMajorAxis: Double(semiMajorAxis),
+                          eccentricity: Double(eccentricity),
+                          meanAnomaly: Double(meanAnomaly),
+                          inclination: Double(inclination),
+                          LAN: Double(LAN),
+                          argumentOfPeriapsis: Double(argumentOfPeriapsis),
+                          centralBody: centralBody)
+        
+        // Note that KSP uses universe time as epoch for orbits
+        orbit.epoch = Double(self[.universeTime] ?? 0)
+        return orbit
     }
     
     private init() {}

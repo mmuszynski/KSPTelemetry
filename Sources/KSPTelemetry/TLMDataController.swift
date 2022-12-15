@@ -21,6 +21,9 @@ public class TLMDataController {
     private var timeoutTimer: Timer?
     private var timeoutHandler: (()->())?
     
+    public var debug: Bool = false
+    public var debugData: [Data] = []
+    
     /// Sets a completion handler when the connection times out
     ///
     /// - Parameter handler: The handler
@@ -142,15 +145,21 @@ public class TLMDataController {
             }
             
             //did any data actually come through?
-            if data == nil {
+            guard let data else {
                 print("connection received no data")
+                self.receive(on: connection)
+                return
+            }
+            
+            if self.debug {
+                self.debugData.append(data)
             }
             
             //if the data did come through, run the debug handler if it exists
-            self.packetDebugHandler?(data!)
+            self.packetDebugHandler?(data)
             
             do {
-                let packet = try TelemetryPacket(with: data!)
+                let packet = try TelemetryPacket(with: data)
                 self.currentPacket = packet
                 self.packetHandler?(packet)
             } catch {

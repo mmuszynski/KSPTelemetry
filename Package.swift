@@ -32,6 +32,7 @@ let package = Package(
             dependencies: [
                 "KSPTelemetry"
             ],
-            exclude: ["Info.plist"])
+            exclude: ["Info.plist"],
+            resources: [.process("Resources")])
     ]
 )
