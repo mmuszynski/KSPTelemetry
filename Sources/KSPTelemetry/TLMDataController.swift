@@ -100,8 +100,8 @@ public class TLMDataController {
                 
                 self.scheduledTimeoutHandler?()
             }
+            RunLoop.main.add(self.scheduledTimeoutTimer!, forMode: .common)
         }
-        RunLoop.main.add(self.timeoutTimer!, forMode: .common)
     }
     
     /// Sets up a handler for when the connection has disconnected normally (i.e. not as a timeout)
