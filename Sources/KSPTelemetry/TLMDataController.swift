@@ -124,7 +124,12 @@ public class TLMDataController {
         self.packetHandler = handler
     }
     
-    private var connectionExpiry: Date = Date()
+    private var connectionExpiry: Date = Date() {
+        didSet {
+            _connectedUntil = connectionExpiry
+            resetScheduledTimeout(with: connectionExpiry)
+        }
+    }
     
     public typealias PacketDebugHandlerType = (Data)->Void
     public var packetDebugHandler: PacketDebugHandlerType?
