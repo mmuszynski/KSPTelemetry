@@ -65,7 +65,7 @@ public struct TelemetryPacket: Codable, Equatable {
     
     private init() {}
     
-    init(with packet: Data) throws {
+    public init(with packet: Data) throws {
         //Initialize the output dictionary and set the offset cursor position to zero
         var telemetryPacket = TelemetryPacket()
         var offset = 0
