@@ -17,19 +17,101 @@ public class TLMDataController {
     public static let shared = TLMDataController()
     public init() {}
     
-    public var timeout: Double = 5.0
-    private var timeoutTimer: Timer?
-    private var timeoutHandler: (()->())?
+    /*
+     - MARK: Timeout methods
+     ==========================================================================================
+     The remote sender will sometimes fail to send messages in a timely fashion (or when the client
+     has only asked for packets until a certain time, but the server has not sent a disconnect message).
+     
+     This section has been refactored to use a completion handler rather than delegate methods.
+     ==========================================================================================
+     */
     
-    public var debug: Bool = false
-    public var debugData: [Data] = []
+    /// The time to wait (in seconds) before considering the connection to have timed out.
+    public var timeout: Double = 5.0
+    
+    /// Runs the cleanup code that needs to happen when the connection has timed out and should consider itself disconnected.
+    private var timeoutTimer: Timer?
+    
+    /// The handler that is fired when the client is considered to have timed out
+    private var timeoutHandler: (()->())?
     
     /// Sets a completion handler when the connection times out
     ///
-    /// - Parameter handler: The handler
+    /// - Parameter handler: The handler to be run when the connection has timed out
     public func onTimeout(_ handler: @escaping ()->()) {
         self.timeoutHandler = handler
     }
+    
+    /// Resets the timer, indicating that it should begin a new timeout waiting period
+    ///
+    /// This happens when the connection begins, but also every time the connection has received a packet from the server.
+    private func resetTimeout() {
+        self.timeoutTimer?.invalidate()
+        self.timeoutTimer = Timer(timeInterval: self.timeout, repeats: false) { timer in
+            self.timeoutHandler?()
+            
+            self.timeoutTimer?.invalidate()
+            self.timeoutTimer = nil
+            
+            self.scheduledTimeoutTimer?.invalidate()
+            self.scheduledTimeoutTimer = nil
+        }
+        RunLoop.main.add(self.timeoutTimer!, forMode: .common)
+    }
+    
+    /*
+     - MARK: Scheduled Timeout methods
+     ==========================================================================================
+     When the connection begins, it tells the server how long it plans to listen. The server will
+     respect this and will only send packets until the time at which the server asked to stop listening.
+     
+     When the server receives a new connection, it will attempt to send a unix time to represent
+     the time at which it will stop serving packets to this client. There is unlikely to be a
+     disconnect message created by the server (instead, relying on timeout if this method fails).
+     ==========================================================================================
+     */
+    
+    /// The date at which the connection will end, as reported by the server (readonly)
+    public var connectedUntil: Date? {
+        return _connectedUntil
+    }
+    
+    /// Private backing storage for connection date
+    private var _connectedUntil: Date?
+    
+    /// The timer that controls the scheduled timeout
+    private var scheduledTimeoutTimer: Timer?
+    
+    /// The handler for disconnections
+    private var scheduledTimeoutHandler: (()->Void)?
+    
+    /// Resets the timer, indicating that it should change the time at which the conneciton is considered closed.
+    private func resetScheduledTimeout(with date: Date) {
+        if self.scheduledTimeoutTimer?.isValid == true {
+            self.scheduledTimeoutTimer?.fireDate = date
+        } else {
+            self.scheduledTimeoutTimer = Timer(fire: date, interval: 0, repeats: false) { timer in
+                self.scheduledTimeoutHandler?()
+                
+                self.timeoutTimer?.invalidate()
+                self.timeoutTimer = nil
+                
+                self.scheduledTimeoutTimer?.invalidate()
+                self.scheduledTimeoutTimer = nil
+            }
+        }
+        RunLoop.main.add(self.timeoutTimer!, forMode: .common)
+    }
+    
+    /// Sets up a handler for when the connection has disconnected normally (i.e. not as a timeout)
+    /// - Parameter handler: The handler to run when the connection has disconnected
+    public func onDisconnect(_ handler: @escaping ()->Void) {
+        self.scheduledTimeoutHandler = handler
+    }
+    
+    public var debug: Bool = false
+    public var debugData: [Data] = []
     
     public typealias TelemetryPacketHandler = (TelemetryPacket)->Void
     
@@ -178,16 +260,6 @@ public class TLMDataController {
             self.resetTimeout()
             self.receive(on: connection)
         }
-    }
-    
-    func resetTimeout() {
-        self.timeoutTimer?.invalidate()
-        self.timeoutTimer = Timer(timeInterval: self.timeout, repeats: false) { timer in
-            self.timeoutHandler?()
-            self.connection = nil
-            self.timeoutTimer = nil
-        }
-        RunLoop.main.add(self.timeoutTimer!, forMode: .common)
     }
 }
 
