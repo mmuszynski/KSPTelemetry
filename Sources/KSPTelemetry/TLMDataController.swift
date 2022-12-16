@@ -49,13 +49,13 @@ public class TLMDataController {
     private func resetTimeout() {
         self.timeoutTimer?.invalidate()
         self.timeoutTimer = Timer(timeInterval: self.timeout, repeats: false) { timer in
-            self.timeoutHandler?()
-            
             self.timeoutTimer?.invalidate()
             self.timeoutTimer = nil
             
             self.scheduledTimeoutTimer?.invalidate()
             self.scheduledTimeoutTimer = nil
+            
+            self.timeoutHandler?()
         }
         RunLoop.main.add(self.timeoutTimer!, forMode: .common)
     }
@@ -92,13 +92,13 @@ public class TLMDataController {
             self.scheduledTimeoutTimer?.fireDate = date
         } else {
             self.scheduledTimeoutTimer = Timer(fire: date, interval: 0, repeats: false) { timer in
-                self.scheduledTimeoutHandler?()
-                
                 self.timeoutTimer?.invalidate()
                 self.timeoutTimer = nil
                 
                 self.scheduledTimeoutTimer?.invalidate()
                 self.scheduledTimeoutTimer = nil
+                
+                self.scheduledTimeoutHandler?()
             }
         }
         RunLoop.main.add(self.timeoutTimer!, forMode: .common)
