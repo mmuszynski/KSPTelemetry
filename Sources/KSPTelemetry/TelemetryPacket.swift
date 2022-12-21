@@ -59,7 +59,8 @@ public struct TelemetryPacket: Codable, Equatable {
                           centralBody: centralBody)
         
         // Note that KSP uses universe time as epoch for orbits
-        orbit.epoch = Double(self[.universeTime] ?? 0)
+        // Did this fuck everything up?
+        // orbit.epoch = Double(self[.universeTime] ?? 0)
         return orbit
     }
     
