@@ -12,10 +12,38 @@ import Network
 public class TLMDataController {
     
     private var connectionQueue = DispatchQueue(label: "NWConnectionQueue", qos: .utility)
-    private var connection: NWConnection?
+    private var connection: NWConnection? {
+        didSet {
+            if connection != nil {
+                connectionHandler?()
+            }
+        }
+    }
     
     public static let shared = TLMDataController()
     public init() {}
+    
+    /*
+     - MARK: On Connection methods
+     ==========================================================================================
+     The remote sender will send a connection message to acknowledge the current client. When this
+     happens, a connection handler will run.
+     
+     This section has been refactored to use a completion handler rather than delegate methods.
+     ==========================================================================================
+     */
+    
+    public typealias ConnectionHandlerType = ()->Void
+    
+    /// The handler that is fired when the client has received a connection message
+    private var connectionHandler: ConnectionHandlerType?
+    
+    /// Sets a completion handler connection has been acknowledged by the server
+    ///
+    /// - Parameter handler: The handler to be run when the connection has connected
+    public func onConnection(_ handler: @escaping ConnectionHandlerType) {
+        self.connectionHandler = handler
+    }
     
     /*
      - MARK: Timeout methods
