@@ -20,6 +20,9 @@ public struct TelemetryPacket: Codable, Equatable {
     public var packetType: Int32 = 0
     public var unixTime: Int32 = 0
     
+    public var isConnectionPacket: Bool = false
+    public var isDisconnectionPacket: Bool = false
+    
     public var keys: [TelemetryKey] {
         return Array(floatValues.keys)
     }
@@ -84,6 +87,7 @@ public struct TelemetryPacket: Codable, Equatable {
             let unixTime: Int32 = try packet.decode(atOffset: &offset)
             telemetryPacket.unixTime = unixTime
             self = telemetryPacket
+            self.isConnectionPacket = true
         } else {
             
             let universeTime: Float = try packet.decode(atOffset: &offset)

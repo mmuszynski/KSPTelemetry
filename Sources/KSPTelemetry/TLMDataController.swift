@@ -12,13 +12,7 @@ import Network
 public class TLMDataController {
     
     private var connectionQueue = DispatchQueue(label: "NWConnectionQueue", qos: .utility)
-    private var connection: NWConnection? {
-        didSet {
-            if connection != nil {
-                connectionHandler?()
-            }
-        }
-    }
+    private var connection: NWConnection?
     
     public static let shared = TLMDataController()
     public init() {}
@@ -284,6 +278,11 @@ public class TLMDataController {
             
             do {
                 let packet = try TelemetryPacket(with: data)
+                
+                if packet.isConnectionPacket {
+                    self.connectionHandler?()
+                }
+                
                 self.currentPacket = packet
                 self.packetHandler?(packet)
             } catch {
