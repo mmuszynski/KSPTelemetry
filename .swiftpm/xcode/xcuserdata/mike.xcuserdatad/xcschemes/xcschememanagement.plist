@@ -190,6 +190,11 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>KSPTelemetry_KSPTelemetryTests</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 	</dict>
 </dict>
 </plist>
