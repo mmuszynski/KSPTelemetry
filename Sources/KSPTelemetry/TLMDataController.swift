@@ -223,7 +223,7 @@ public class TLMDataController {
         //Create the connection using the host and port
         let connection = NWConnection(host: host, port: port, using: .udp)
         connection.start(queue: self.connectionQueue)
-        //self.connection = connection
+        self.connection = connection
         
         //come up with expiration date
         if let date = expiration {

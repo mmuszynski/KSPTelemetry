@@ -24,6 +24,8 @@ public struct TelemetryPacket: Codable, Equatable {
     public var isConnectionPacket: Bool = false
     public var isDisconnectionPacket: Bool = false
     
+    public var vesselState: VesselState?
+    
     public var keys: [TelemetryKey] {
         return Array(floatValues.keys)
     }
@@ -132,16 +134,17 @@ public struct TelemetryPacket: Codable, Equatable {
             //and (in version 1) ship status
             bitfieldCheck = bitfieldCheck << 1
             if (packetType & bitfieldCheck) == bitfieldCheck {
-                telemetryPacket[.rcsRemaining] = try packet.decode(atOffset: &offset)
-                telemetryPacket[.rcsCapacity] = try packet.decode(atOffset: &offset)
-                telemetryPacket[.fuelRemaining] = try packet.decode(atOffset: &offset)
-                telemetryPacket[.fuelCapacity] = try packet.decode(atOffset: &offset)
-                telemetryPacket[.powerRemaining] = try packet.decode(atOffset: &offset)
-                telemetryPacket[.powerCapacity] = try packet.decode(atOffset: &offset)
+                self.vesselState = VesselState()
+                vesselState?.rcsRemaining = try packet.decode(atOffset: &offset)
+                vesselState?.rcsCapacity = try packet.decode(atOffset: &offset)
+                vesselState?.fuelRemaining = try packet.decode(atOffset: &offset)
+                vesselState?.fuelCapacity = try packet.decode(atOffset: &offset)
+                vesselState?.powerRemaining = try packet.decode(atOffset: &offset)
+                vesselState?.powerCapacity = try packet.decode(atOffset: &offset)
                 
                 if version == 1 {
-                    telemetryPacket[.isRCSactive] = try packet.decode(atOffset: &offset)
-                    telemetryPacket[.isSASactive] = try packet.decode(atOffset: &offset)
+                    vesselState?.isRCSActive = try packet.decode(atOffset: &offset)
+                    vesselState?.isSASActive = try packet.decode(atOffset: &offset)
                 }
             }
             
