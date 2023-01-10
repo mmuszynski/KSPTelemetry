@@ -134,20 +134,21 @@ public struct TelemetryPacket: Codable, Equatable {
             //and (in version 1) ship status
             bitfieldCheck = bitfieldCheck << 1
             if (packetType & bitfieldCheck) == bitfieldCheck {
-                telemetryPacket.vesselState = VesselState()
-                vesselState?.rcsRemaining = try packet.decode(atOffset: &offset)
-                vesselState?.rcsCapacity = try packet.decode(atOffset: &offset)
-                vesselState?.fuelRemaining = try packet.decode(atOffset: &offset)
-                vesselState?.fuelCapacity = try packet.decode(atOffset: &offset)
-                vesselState?.powerRemaining = try packet.decode(atOffset: &offset)
-                vesselState?.powerCapacity = try packet.decode(atOffset: &offset)
+                var vesselState = VesselState()
+                vesselState.rcsRemaining = try packet.decode(atOffset: &offset)
+                vesselState.rcsCapacity = try packet.decode(atOffset: &offset)
+                vesselState.fuelRemaining = try packet.decode(atOffset: &offset)
+                vesselState.fuelCapacity = try packet.decode(atOffset: &offset)
+                vesselState.powerRemaining = try packet.decode(atOffset: &offset)
+                vesselState.powerCapacity = try packet.decode(atOffset: &offset)
                 
                 if version == 1 {
                     let rcsFloat: Int32 = try packet.decode(atOffset: &offset)
                     let sasFloat: Int32 = try packet.decode(atOffset: &offset)
-                    vesselState?.isRCSActive = rcsFloat == 1
-                    vesselState?.isSASActive = sasFloat == 1
+                    vesselState.isRCSActive = rcsFloat == 1
+                    vesselState.isSASActive = sasFloat == 1
                 }
+                telemetryPacket.vesselState = vesselState
             }
             
             //the next check is for launch items
