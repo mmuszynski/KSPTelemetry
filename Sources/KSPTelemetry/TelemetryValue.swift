@@ -9,6 +9,7 @@ import Foundation
 
 public protocol TelemetryValue: Codable {}
 
+extension Bool: TelemetryValue {}
 extension Int: TelemetryValue {}
 extension Int8: TelemetryValue {}
 extension Int16: TelemetryValue {}

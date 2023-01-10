@@ -14,6 +14,10 @@ public class TLMDataController {
     private var connectionQueue = DispatchQueue(label: "NWConnectionQueue", qos: .utility)
     private var connection: NWConnection?
     
+    //The version of the packet, added Jan 2023
+    //This should allow for older versions function with previous packet versions
+    private var packetVersion: Int32 = 0
+    
     public static let shared = TLMDataController()
     public init() {}
     
@@ -280,10 +284,11 @@ public class TLMDataController {
             self.packetDebugHandler?(data)
             
             do {
-                let packet = try TelemetryPacket(with: data)
+                let packet = try TelemetryPacket(with: data, version: self.packetVersion)
                 
                 if packet.isConnectionPacket {
                     self.connectionHandler?()
+                    self.packetVersion = packet.version
                 }
                 
                 self.currentPacket = packet

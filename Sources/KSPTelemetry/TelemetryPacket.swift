@@ -19,6 +19,7 @@ public struct TelemetryPacket: Codable, Equatable {
     
     public var packetType: Int32 = 0
     public var unixTime: Int32 = 0
+    public var version: Int32 = 0
     
     public var isConnectionPacket: Bool = false
     public var isDisconnectionPacket: Bool = false
@@ -69,7 +70,7 @@ public struct TelemetryPacket: Codable, Equatable {
     
     private init() {}
     
-    public init(with packet: Data) throws {
+    public init(with packet: Data, version: Int32 = 0) throws {
         //Initialize the output dictionary and set the offset cursor position to zero
         var telemetryPacket = TelemetryPacket()
         var offset = 0
@@ -86,9 +87,30 @@ public struct TelemetryPacket: Codable, Equatable {
             //returned an acknowledgement packet
             let unixTime: Int32 = try packet.decode(atOffset: &offset)
             telemetryPacket.unixTime = unixTime
+            
+            //20230109: Added a packet version
+            let version: Int32 = try packet.decode(atOffset: &offset)
+            telemetryPacket.version = version
+            
             self = telemetryPacket
             self.isConnectionPacket = true
         } else {
+            //packet versions
+            //version 0
+            //1    universeTime, semiMajorAxis, eccentricity, meanAnomaly, inclination, lan, argumentOfPeriapsis, centralBodyRadius, centralBodyGravitationalParameter
+            //1<<1 rcsRemaining, rcsCapacity, fuelRemaining, fuelCapacity, powerRemaining, powerCapacity
+            //1<<2 longitude, latitude
+            //1<<3 surfaceVelocityX, Y, Z, heightFromTerrain, verticalSpeed
+            
+            /*
+             //version 1
+             //1    universeTime, semiMajorAxis, eccentricity, meanAnomaly, inclination, lan, argumentOfPeriapsis, centralBodyRadius, centralBodyGravitationalParameter
+             //1<<1 rcsRemaining, rcsCapacity, fuelRemaining, fuelCapacity, powerRemaining, powerCapacity. isRCSActive, isSASACtive
+             //1<<2 longitude, latitude
+             //1<<3 surfaceVelocityX, Y, Z, heightFromTerrain, verticalSpeed
+             */
+            
+            
             
             let universeTime: Float = try packet.decode(atOffset: &offset)
             telemetryPacket[.universeTime] = universeTime
@@ -107,6 +129,7 @@ public struct TelemetryPacket: Codable, Equatable {
             
             //the next check is for RCS capacity
             //and liquid fuel
+            //and (in version 1) ship status
             bitfieldCheck = bitfieldCheck << 1
             if (packetType & bitfieldCheck) == bitfieldCheck {
                 telemetryPacket[.rcsRemaining] = try packet.decode(atOffset: &offset)
@@ -115,6 +138,11 @@ public struct TelemetryPacket: Codable, Equatable {
                 telemetryPacket[.fuelCapacity] = try packet.decode(atOffset: &offset)
                 telemetryPacket[.powerRemaining] = try packet.decode(atOffset: &offset)
                 telemetryPacket[.powerCapacity] = try packet.decode(atOffset: &offset)
+                
+                if version == 1 {
+                    telemetryPacket[.isRCSactive] = try packet.decode(atOffset: &offset)
+                    telemetryPacket[.isSASactive] = try packet.decode(atOffset: &offset)
+                }
             }
             
             //the next check is for launch items
