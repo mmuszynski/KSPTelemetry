@@ -143,8 +143,8 @@ public struct TelemetryPacket: Codable, Equatable {
                 vesselState?.powerCapacity = try packet.decode(atOffset: &offset)
                 
                 if version == 1 {
-                    let rcsFloat: Float = try packet.decode(atOffset: &offset)
-                    let sasFloat: Float = try packet.decode(atOffset: &offset)
+                    let rcsFloat: Int32 = try packet.decode(atOffset: &offset)
+                    let sasFloat: Int32 = try packet.decode(atOffset: &offset)
                     vesselState?.isRCSActive = rcsFloat == 1
                     vesselState?.isSASActive = sasFloat == 1
                 }
