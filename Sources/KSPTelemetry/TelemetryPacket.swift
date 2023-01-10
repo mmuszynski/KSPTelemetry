@@ -134,7 +134,7 @@ public struct TelemetryPacket: Codable, Equatable {
             //and (in version 1) ship status
             bitfieldCheck = bitfieldCheck << 1
             if (packetType & bitfieldCheck) == bitfieldCheck {
-                self.vesselState = VesselState()
+                telemetryPacket.vesselState = VesselState()
                 vesselState?.rcsRemaining = try packet.decode(atOffset: &offset)
                 vesselState?.rcsCapacity = try packet.decode(atOffset: &offset)
                 vesselState?.fuelRemaining = try packet.decode(atOffset: &offset)
