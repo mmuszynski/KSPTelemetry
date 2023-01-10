@@ -63,6 +63,7 @@ public class TLMDataController {
     /// - Parameter handler: The handler to be run when the connection has timed out
     public func onTimeout(_ handler: @escaping ()->()) {
         self.timeoutHandler = handler
+        self.connection = nil
     }
     
     /// Resets the timer, indicating that it should begin a new timeout waiting period
@@ -130,6 +131,7 @@ public class TLMDataController {
     /// - Parameter handler: The handler to run when the connection has disconnected
     public func onDisconnect(_ handler: @escaping ()->Void) {
         self.scheduledTimeoutHandler = handler
+        self.connection = nil
     }
     
     public var debug: Bool = false
@@ -217,6 +219,7 @@ public class TLMDataController {
         //Create the connection using the host and port
         let connection = NWConnection(host: host, port: port, using: .udp)
         connection.start(queue: self.connectionQueue)
+        self.connection = connection
         
         //come up with expiration date
         if let date = expiration {
