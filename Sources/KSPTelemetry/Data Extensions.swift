@@ -27,7 +27,6 @@ extension NetworkRepresentable {
     }
 }
 
-extension Bool: NetworkRepresentable {}
 extension Int8: NetworkRepresentable {}
 extension Int16: NetworkRepresentable {}
 extension Int32: NetworkRepresentable {}
