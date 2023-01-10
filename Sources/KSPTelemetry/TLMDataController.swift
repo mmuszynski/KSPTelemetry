@@ -293,6 +293,14 @@ public class TLMDataController {
             self.receive(on: connection)
         }
     }
+    
+    public func send(_ string: String) {
+        self.connection?.send(content: string.data(using: .utf8), completion: NWConnection.SendCompletion.contentProcessed({ error in
+            if let error {
+                print(error)
+            }
+        }))
+    }
 }
 
 public extension TLMDataController {
