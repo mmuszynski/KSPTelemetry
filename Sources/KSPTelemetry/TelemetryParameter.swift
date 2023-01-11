@@ -47,6 +47,10 @@ public enum TelemetryKey: String, Hashable, Codable, CaseIterable {
     case latitude
     case longitude
     
+    case speed
+    case horizontalSurfaceSpeed
+    case surfaceSpeed
+    
     //orientation elements
     case shipUpAxisX
     case shipUpAxisY

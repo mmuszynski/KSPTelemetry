@@ -167,6 +167,12 @@ public struct TelemetryPacket: Codable, Equatable {
                 telemetryPacket[.surfaceVelocityZ] = try packet.decode(atOffset: &offset)
                 telemetryPacket[.heightFromTerrain] = try packet.decode(atOffset: &offset)
                 telemetryPacket[.verticalSpeed] = try packet.decode(atOffset: &offset)
+                
+                if version == 1 {
+                    telemetryPacket[.speed] = try packet.decode(atOffset: &offset)
+                    telemetryPacket[.horizontalSurfaceSpeed] = try packet.decode(atOffset: &offset)
+                    telemetryPacket[.surfaceSpeed] = try packet.decode(atOffset: &offset)
+                }
             }
             
             self = telemetryPacket
