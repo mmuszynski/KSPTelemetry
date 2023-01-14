@@ -31,6 +31,6 @@ extension CelestialBody {
     public static let eeloo = CelestialBody(gravitationalParameter: 7.4410815e10, radius: 210000, mass: 1.1149224e21, orbit: .eeloo)
     
     public static let allKSPBodies: [CelestialBody] = [
-        .kerbol, .moho, .eve, .kerbin, .mun, .minmus, .duna, .jool, . dres, .eeloo
+        .kerbol, .moho, .eve, .kerbin, .mun, .minmus, .duna, .jool, . dres, .eeloo, .ike
     ]
 }
