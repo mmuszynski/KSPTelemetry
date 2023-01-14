@@ -87,4 +87,12 @@ extension Orbit {
                                     LAN: 50.degrees,
                                     argumentOfPeriapsis: 260.degrees,
                                     centralBody: .kerbol)
+    
+    public static let ike = Orbit(semiMajorAxis: 3200000.meters,
+                                  eccentricity: 0.03,
+                                  meanAnomaly: 1.7.radians,
+                                  inclination: 0.2.degrees,
+                                  LAN: 0.degrees,
+                                  argumentOfPeriapsis: 0.degrees,
+                                  centralBody: .duna)
 }

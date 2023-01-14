@@ -25,6 +25,7 @@ extension CelestialBody {
         d.atmosphereAltitude = 50000
         return d
     }()
+    public static let ike = CelestialBody(gravitationalParameter: 1.8568369e10, radius: 130000, mass: 2.7821615e20, orbit: .ike)
     public static let jool = CelestialBody(gravitationalParameter: 2.8252800e14, radius: 6000000, mass: 4.2332127e24, orbit: .jool)
     public static let dres = CelestialBody(gravitationalParameter: 2.1484489e10, radius: 138000, mass: 3.2190937e20, orbit: .dres)
     public static let eeloo = CelestialBody(gravitationalParameter: 7.4410815e10, radius: 210000, mass: 1.1149224e21, orbit: .eeloo)
