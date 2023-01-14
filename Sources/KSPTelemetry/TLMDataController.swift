@@ -76,12 +76,7 @@ public class TLMDataController {
     private func resetTimeout() {
         self.timeoutTimer?.invalidate()
         self.timeoutTimer = Timer(timeInterval: self.timeout, repeats: false) { timer in
-            self.timeoutTimer?.invalidate()
-            self.timeoutTimer = nil
-            
-            self.scheduledTimeoutTimer?.invalidate()
-            self.scheduledTimeoutTimer = nil
-            
+            self.invalidateTimers()
             self.timeoutHandler?()
         }
         RunLoop.main.add(self.timeoutTimer!, forMode: .common)
@@ -119,12 +114,7 @@ public class TLMDataController {
             self.scheduledTimeoutTimer?.fireDate = date
         } else {
             self.scheduledTimeoutTimer = Timer(fire: date, interval: 0, repeats: false) { timer in
-                self.timeoutTimer?.invalidate()
-                self.timeoutTimer = nil
-                
-                self.scheduledTimeoutTimer?.invalidate()
-                self.scheduledTimeoutTimer = nil
-                
+                self.invalidateTimers()
                 self.scheduledTimeoutHandler?()
             }
             RunLoop.main.add(self.scheduledTimeoutTimer!, forMode: .common)
@@ -175,6 +165,14 @@ public class TLMDataController {
         get {
             connection != nil
         }
+    }
+    
+    func invalidateTimers() {
+        self.timeoutTimer?.invalidate()
+        self.timeoutTimer = nil
+            
+        self.scheduledTimeoutTimer?.invalidate()
+        self.scheduledTimeoutTimer = nil
     }
     
     /*
@@ -257,6 +255,11 @@ public class TLMDataController {
             self.resetTimeout()
             self.receive(on: connection)
         })
+    }
+    
+    public func disconnect() {
+        self.invalidateTimers()
+        self.send("disconnect")
     }
     
     /// Receives data from the remote server
