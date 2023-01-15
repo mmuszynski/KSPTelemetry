@@ -7,6 +7,7 @@
 
 import XCTest
 @testable import KSPTelemetry
+import Keplerian
 
 final class DataTests: XCTestCase {
 
@@ -23,6 +24,14 @@ final class DataTests: XCTestCase {
             }
         
         print(packets.map { $0[.epoch] })
+    }
+    
+    func testCalculateSOI() throws {
+        let ike = CelestialBody.ike
+        let duna = CelestialBody.duna
+        
+        print(ike.orbit!.semiMajorAxis * pow(ike.mass / duna.mass, 2 / 5))
+        print(ike.orbit!.semiMajorAxis - ike.orbit!.semiMajorAxis * pow(ike.mass / duna.mass, 2 / 5))
     }
 
 }

@@ -260,6 +260,9 @@ public class TLMDataController {
     public func disconnect() {
         self.invalidateTimers()
         self.send("disconnect")
+        
+        self.connection?.cancel()
+        self.connection = nil
     }
     
     /// Receives data from the remote server
