@@ -278,6 +278,8 @@ public class TLMDataController {
             //did any data actually come through?
             guard let data else {
                 print("connection received no data")
+#warning ("This should be implemented using connection lost handler")
+                self.timeoutHandler?()
                 return
             }
             
