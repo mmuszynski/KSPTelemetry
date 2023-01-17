@@ -175,6 +175,14 @@ public struct TelemetryPacket: Codable, Equatable, Hashable {
                 }
             }
             
+            //the next check is for orientation elements
+            bitfieldCheck = bitfieldCheck << 1
+            if (packetType & bitfieldCheck) == bitfieldCheck {
+                telemetryPacket[.shipUpAxisX] = try packet.decode(atOffset: &offset)
+                telemetryPacket[.shipUpAxisY] = try packet.decode(atOffset: &offset)
+                telemetryPacket[.shipUpAxisZ] = try packet.decode(atOffset: &offset)
+            }
+                
             self = telemetryPacket
         }
     }
