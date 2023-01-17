@@ -278,7 +278,6 @@ public class TLMDataController {
             //did any data actually come through?
             guard let data else {
                 print("connection received no data")
-                self.receive(on: connection)
                 return
             }
             
