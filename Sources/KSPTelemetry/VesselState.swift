@@ -20,9 +20,9 @@ public struct VesselState: Codable, Equatable, Hashable {
     public var powerCapacity: Float = 0
     public var powerRemaining: Float = 0
     
-    var upDirection: simd_float3?
-    var position: simd_float3?
+    public var upDirection: simd_float3?
+    public var position: simd_float3?
     
-    var targetUpDirection: simd_float3?
-    var targetPosition: simd_float3?
+    public var targetUpDirection: simd_float3?
+    public var targetPosition: simd_float3?
 }
