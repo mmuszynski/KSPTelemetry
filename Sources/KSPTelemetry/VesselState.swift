@@ -22,7 +22,9 @@ public struct VesselState: Codable, Equatable, Hashable {
     
     public var upDirection: simd_float3?
     public var position: simd_float3?
+    public var forwardDirection: simd_float3?
     
     public var targetUpDirection: simd_float3?
     public var targetPosition: simd_float3?
+    public var targetForwardDirection: simd_float3?
 }

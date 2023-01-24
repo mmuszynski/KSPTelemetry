@@ -210,6 +210,12 @@ public struct TelemetryPacket: Codable, Equatable, Hashable {
                 
                 telemetryPacket.vesselState?.upDirection = simd_float3(shipUpX, shipUpY, shipUpZ)
                 
+                let shipFwdX: Float = try packet.decode(atOffset: &offset)
+                let shipFwdY: Float = try packet.decode(atOffset: &offset)
+                let shipFwdZ: Float = try packet.decode(atOffset: &offset)
+                
+                telemetryPacket.vesselState?.forwardDirection = simd_float3(shipFwdX, shipFwdY, shipFwdZ)
+                
                 let targetStatus: Int32 = try packet.decode(atOffset: &offset)
                 if targetStatus == 2 {
                     let targetX: Float = try packet.decode(atOffset: &offset)
@@ -223,6 +229,12 @@ public struct TelemetryPacket: Codable, Equatable, Hashable {
                     let targetUpZ: Float = try packet.decode(atOffset: &offset)
 
                     telemetryPacket.vesselState?.targetUpDirection = simd_float3(targetUpX, targetUpY, targetUpZ)
+                    
+                    let targetFwdX: Float = try packet.decode(atOffset: &offset)
+                    let targetFwdY: Float = try packet.decode(atOffset: &offset)
+                    let targetFwdZ: Float = try packet.decode(atOffset: &offset)
+                    
+                    telemetryPacket.vesselState?.targetForwardDirection = simd_float3(targetFwdX, targetFwdY, targetFwdZ)
                 }
             }
                 
