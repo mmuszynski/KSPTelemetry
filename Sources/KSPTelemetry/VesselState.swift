@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import simd
 
 ///Contains information about the state of the vessel, decoded from the telemetry
 public struct VesselState: Codable, Equatable, Hashable {
@@ -18,4 +19,10 @@ public struct VesselState: Codable, Equatable, Hashable {
     public var rcsRemaining: Float = 0
     public var powerCapacity: Float = 0
     public var powerRemaining: Float = 0
+    
+    var upDirection: simd_float3?
+    var position: simd_float3?
+    
+    var targetUpDirection: simd_float3?
+    var targetPosition: simd_float3?
 }

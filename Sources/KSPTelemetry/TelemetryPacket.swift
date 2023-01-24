@@ -7,6 +7,7 @@
 
 import Foundation
 import Keplerian
+import simd
 
 @available(*, unavailable, renamed: "TelemetryPacket")
 public struct TelemetryDictionary { }
@@ -176,11 +177,53 @@ public struct TelemetryPacket: Codable, Equatable, Hashable {
             }
             
             //the next check is for orientation elements
+            /*
+                 * Contains the following:
+                 *
+                 * Vessel position (3 double values)
+                 * Vessel up direction (3 double values, normalized)
+                 *
+                 * An int describing a target
+                 *  0 = no target
+                 *  1 = ship
+                 *  2 = docking port
+                 *  3 = planet? (not yet implemented)
+                 *
+                 *  The information about the target
+                 *  The only one that is implemented is docking right no (2023 Jan 24)
+                 *
+                 *  2 -
+                 *  Docking port position (3 double values)
+                 *  Docking port up direction (3 double values, normalized)
+             */
             bitfieldCheck = bitfieldCheck << 1
             if (packetType & bitfieldCheck) == bitfieldCheck {
-                telemetryPacket[.shipUpAxisX] = try packet.decode(atOffset: &offset)
-                telemetryPacket[.shipUpAxisY] = try packet.decode(atOffset: &offset)
-                telemetryPacket[.shipUpAxisZ] = try packet.decode(atOffset: &offset)
+                let shipPosX: Float = try packet.decode(atOffset: &offset)
+                let shipPosY: Float = try packet.decode(atOffset: &offset)
+                let shipPosZ: Float = try packet.decode(atOffset: &offset)
+                
+                telemetryPacket.vesselState?.position = simd_float3(shipPosX, shipPosY, shipPosZ)
+                
+                let shipUpX: Float = try packet.decode(atOffset: &offset)
+                let shipUpY: Float = try packet.decode(atOffset: &offset)
+                let shipUpZ: Float = try packet.decode(atOffset: &offset)
+                
+                telemetryPacket.vesselState?.upDirection = simd_float3(shipUpX, shipUpY, shipUpZ)
+                
+                let targetStatus: Int = try packet.decode(atOffset: &offset)
+                if targetStatus == 2 {
+                    let targetX: Float = try packet.decode(atOffset: &offset)
+                    let targetY: Float = try packet.decode(atOffset: &offset)
+                    let targetZ: Float = try packet.decode(atOffset: &offset)
+                    
+                    telemetryPacket.vesselState?.targetPosition = simd_float3(targetX, targetY, targetZ)
+                    
+                    let targetUpX: Float = try packet.decode(atOffset: &offset)
+                    let targetUpY: Float = try packet.decode(atOffset: &offset)
+                    let targetUpZ: Float = try packet.decode(atOffset: &offset)
+
+                    telemetryPacket.vesselState?.targetUpDirection = simd_float3(targetUpX, targetUpY, targetUpZ)
+                }
             }
                 
             self = telemetryPacket
